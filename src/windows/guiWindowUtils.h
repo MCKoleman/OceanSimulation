@@ -74,6 +74,13 @@ public:
 		return value;
 	}
 
+	static glm::vec2 InputVec2(const std::string& label, glm::vec2 value)
+	{
+		float valueInput[2] = { value.x, value.y };
+		ImGui::InputFloat2(label.c_str(), valueInput);
+		return Vec2FromFloats(valueInput);
+	}
+
 	static glm::vec3 InputVec3(const std::string& label, glm::vec3 value)
 	{
 		float valueInput[3] = { value.x, value.y, value.z };

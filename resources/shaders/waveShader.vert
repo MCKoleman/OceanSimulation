@@ -8,10 +8,10 @@ out VS_OUT {
 
 struct Wave
 {
-	float wavelength;
+	float frequency;
+	float phase;
 	float amplitude;
-	float speed;
-	vec3 direction;
+	vec2 direction;
 };
 
 const int NUM_WAVES = 4;
@@ -23,21 +23,40 @@ uniform mat3 NormalModel;
 uniform float curTime;
 uniform Wave waves[NUM_WAVES];
 
-float calculateWaveOffset(Wave wave, float time, vec3 pos)
+float calcWaveOffset(Wave wave, float sinOffset)
 {
-	float phase = wave.speed * 2.0 / wave.wavelength;
-	return wave.amplitude * sin(dot(wave.direction, pos * wave.wavelength) + time * phase);
+	return wave.amplitude * sin(sinOffset);
+}
+
+vec3 calcWaveTangent(vec2 dir, float dirOffset)
+{
+	return vec3(1.0, 0.0, dir.x * dirOffset);
+}
+
+vec3 calcWaveBitangent(vec2 dir, float dirOffset)
+{
+	return vec3(0.0, 1.0, dir.y * dirOffset);
+}
+
+vec3 calcWaveNormal(Wave wave, float sinOffset)
+{
+	float dirOffset = wave.frequency * wave.amplitude * cos(sinOffset);
+	return cross(calcWaveTangent(wave.direction, dirOffset), calcWaveBitangent(wave.direction, dirOffset));
 }
 
 void main()
 {
+	vec2 pos = vec2(aPos.x, aPos.z);
 	float offset = 0.0;
+	vec3 normal = vec3(0.0f);
 	for (int i = 0; i < NUM_WAVES; i++)
 	{
-		offset += calculateWaveOffset(waves[i], curTime, aPos);
+		float sinOffset = dot(waves[i].direction, pos * waves[i].frequency) + curTime * waves[i].phase;
+		offset += calcWaveOffset(waves[i], sinOffset);
+		normal += calcWaveNormal(waves[i], sinOffset);
 	}
 	gl_Position = MVP * vec4(aPos.x, aPos.y + offset, aPos.z, 1.0);
 
 	vs_out.FragPos = vec3(Model * vec4(aPos, 1.0));
-	vs_out.Normal = vec3(0, 1, 0);
+	vs_out.Normal = normalize(normal);
 }

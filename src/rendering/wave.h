@@ -11,7 +11,7 @@ struct Wave
 	float wavelength;
 	float amplitude;
 	float speed;
-	glm::vec3 direction;
+	glm::vec2 direction;
 
 	/// <summary>
 	/// Updates the shader with this wave
@@ -21,13 +21,13 @@ struct Wave
 	void UpdateShader(Shader* shader, int waveNum)
 	{
 		std::string waveName = "waves[" + std::to_string(waveNum) + "]";
-		shader->SetFloat(waveName + ".wavelength", wavelength);
+		shader->SetFloat(waveName + ".frequency", 2.0f / wavelength);
+		shader->SetFloat(waveName + ".phase", speed * 2.0f / wavelength);
 		shader->SetFloat(waveName + ".amplitude", amplitude);
-		shader->SetFloat(waveName + ".speed", speed);
-		shader->SetVec3(waveName + ".direction", direction);
+		shader->SetVec2(waveName + ".direction", glm::normalize(direction));
 	}
 
 	explicit Wave(float _wavelength, float _amplitude, float _speed, const glm::vec3& _dir)
-		: wavelength(_wavelength), amplitude(_amplitude), speed(_speed), direction(_dir)
+		: wavelength(_wavelength), amplitude(_amplitude), speed(_speed), direction(glm::vec2(_dir.x, _dir.z))
 	{}
 };

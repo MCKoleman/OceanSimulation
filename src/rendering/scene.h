@@ -18,6 +18,7 @@ protected:
 	Shader* mShader = nullptr;
 	Light* mGlobalLight = nullptr;
 	Camera* mMainCamera = nullptr;
+	Material* mMaterial = nullptr;
 	IEntity* mCurEntity = nullptr;
 	State* mState = nullptr;
 
@@ -72,6 +73,9 @@ public:
 
 	// Sets the scene's light to the given light
 	void SetLight(Light* light) { if (mGlobalLight != nullptr) { delete mGlobalLight; } mGlobalLight = light; }
+
+	// Sets the scene's material
+	void SetMaterial(Material* material) { if (mMaterial != nullptr) { delete mMaterial; } mMaterial = material; }
 
 	// Sets the entity to be rendered
 	void SetEntity(IEntity* entity) { if (mCurEntity != nullptr) { delete mCurEntity; } mCurEntity = entity; }

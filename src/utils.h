@@ -146,6 +146,11 @@ static const std::string Vec3ToString(const glm::vec3& vec)
     return ss.str();
 }
 
+static const glm::vec2 Vec2FromFloats(const float vec[2])
+{
+    return glm::vec2(vec[0], vec[1]);
+}
+
 static const glm::vec3 Vec3FromFloats(const float vec[3])
 {
     return glm::vec3(vec[0], vec[1], vec[2]);

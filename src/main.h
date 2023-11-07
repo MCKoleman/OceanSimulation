@@ -60,7 +60,5 @@ void CalculateFPS(State* state, double& prevSecond, int& numFrames);
 /// </summary>
 /// <param name="scene">Scene to load to</param>
 /// <param name="state">Global state</param>
-/// <param name="cameraConfig">Default camera</param>
-/// <param name="lightConfig">Default light</param>
-/// <param name="waveConfig">Default waves</param>
-void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig, Config* waveConfig);
+/// <param name="config">Configuration for the scene</param>
+void LoadScene(Scene* scene, State* state, Config* config);

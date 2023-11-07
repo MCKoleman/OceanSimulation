@@ -12,6 +12,7 @@ void Scene::Draw(Window* window, Shader* shader)
 	GetLight()->UpdateShader(shader);
 	shader->SetFloat("curTime", (float)glfwGetTime());
 	shader->SetVec3("viewPos", GetCamera()->GetPos());
+	mMaterial->UpdateShader(shader);
 	for (unsigned int i = 0; i < mWaveList.size(); i++)
 		mWaveList[i]->UpdateShader(shader, i);
 

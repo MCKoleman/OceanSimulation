@@ -27,7 +27,7 @@ public:
 					waveList[i]->wavelength = GUIWindowUtils::InputFloat("Wavelength", waveList[i]->wavelength);
 					waveList[i]->amplitude = GUIWindowUtils::InputFloat("Amplitude", waveList[i]->amplitude);
 					waveList[i]->speed = GUIWindowUtils::InputFloat("Speed", waveList[i]->speed);
-					waveList[i]->direction = GUIWindowUtils::InputVec3("Direction", waveList[i]->direction);
+					waveList[i]->direction = GUIWindowUtils::InputVec2("Direction", waveList[i]->direction);
 				}
 			}
 		}
