@@ -7,6 +7,7 @@
 #include "rendering/camera.h"
 #include "rendering/mesh.h"
 #include "rendering/iEntity.h"
+#include "rendering/pPlane.h"
 #include "rendering/material.h"
 #include "rendering/wave.h"
 #include <unordered_map>
@@ -20,7 +21,7 @@ protected:
 	Light* mGlobalLight = nullptr;
 	Camera* mMainCamera = nullptr;
 	Material* mMaterial = nullptr;
-	IEntity* mCurEntity = nullptr;
+	PPlane* mWaterPlane = nullptr;
 	Wave* mFirstWave = nullptr;
 	State* mState = nullptr;
 
@@ -51,8 +52,8 @@ public:
 	// Returns the scene's light
 	Light* GetLight() const { return mGlobalLight; }
 
-	// Returns the scene's entity
-	IEntity* GetEntity() const { return mCurEntity; }
+	// Returns the scene's plane
+	PPlane* GetWaterPlane() const { return mWaterPlane; }
 
 	// Returns the current shader
 	std::string GetCurShader() const { return mCurShader; }
@@ -78,8 +79,8 @@ public:
 	// Sets the scene's material
 	void SetMaterial(Material* material) { if (mMaterial != nullptr) { delete mMaterial; } mMaterial = material; }
 
-	// Sets the entity to be rendered
-	void SetEntity(IEntity* entity) { if (mCurEntity != nullptr) { delete mCurEntity; } mCurEntity = entity; }
+	// Sets the plane to be rendered
+	void SetWaterPlane(PPlane* plane) { if (mWaterPlane != nullptr) { delete mWaterPlane; } mWaterPlane = plane; }
 	
 	// Adds a wave to the list
 	void SetWave(Wave* wave) { if (mFirstWave != nullptr) { delete mFirstWave; } mFirstWave = wave; }

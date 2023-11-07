@@ -15,8 +15,8 @@ void Scene::Draw(Window* window, Shader* shader)
 	mMaterial->UpdateShader(shader);
 	mFirstWave->UpdateShader(shader);
 	
-	if (mCurEntity != nullptr)
-		mCurEntity->Draw(shader, mState, viewProj, false);
+	if (mWaterPlane != nullptr)
+		mWaterPlane->Draw(shader, mState, viewProj, false);
 }
 
 // Activates the shader with the given name for the scene

@@ -128,7 +128,7 @@ void LoadScene(Scene* scene, State* state, Config* config)
     // Add light and camera
     scene->SetCamera(config->GetConfig("camera"));
     scene->SetLight(new Light(config->GetConfig("light")));
-    scene->SetEntity(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
+    scene->SetWaterPlane(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
     scene->SetMaterial(new Material(config->GetVec("material.kd"), config->GetVec("material.ka"), config->GetVec("material.ks"), config->GetFloat("material.ns")));
     scene->SetWave(new Wave(config->GetConfig("wave")));
 }
