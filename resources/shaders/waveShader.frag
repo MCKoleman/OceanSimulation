@@ -16,10 +16,13 @@ struct Material
 
 struct Light {
     vec3 position;
+    vec3 direction;
 
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+    int type; // 0: Point, 1: Directional, 2: Spotlight
 };
 
 uniform Material material;
@@ -28,6 +31,13 @@ uniform vec3 viewPos;
 
 void main()
 {
+    // Get light direction for each type of light
+    vec3 lightDir = normalize(-light.direction);
+    if (light.type == 0)
+    {
+        lightDir = normalize(light.position - fs_in.FragPos);
+    }
+
     // Normal in range [-1,1]
     vec3 normal = normalize(fs_in.Normal);
 
@@ -35,7 +45,6 @@ void main()
     vec3 ambient = light.ambient * material.ambient;
 
     // Diffuse
-    vec3 lightDir = normalize(light.position - fs_in.FragPos);
     vec3 diffuse = light.diffuse * (max(dot(normal, lightDir), 0.0) * material.diffuse);
 
     // Specular

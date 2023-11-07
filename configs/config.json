@@ -19,7 +19,7 @@
     "ambient": 0.1,
     "specular": 1.0,
     "gamma": false,
-    "type": 0,
+    "type": 1,
     "range": 30.0,
     "spotInnerRadius": 25.0,
     "spotOuterRadius": 35.0
