@@ -10,8 +10,11 @@
 #include "windows/guiDebugToolsWindow.h"
 #include "windows/guiCameraViewer.h"
 #include "windows/guiLightViewer.h"
+#include "windows/guiWaveViewer.h"
 
 #include "rendering/shader.h"
+#include "rendering/wave.h"
+#include "rendering/material.h"
 #include "rendering/scene.h"
 #include "rendering/pPlane.h"
 
@@ -59,4 +62,5 @@ void CalculateFPS(State* state, double& prevSecond, int& numFrames);
 /// <param name="state">Global state</param>
 /// <param name="cameraConfig">Default camera</param>
 /// <param name="lightConfig">Default light</param>
-void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig);
+/// <param name="waveConfig">Default waves</param>
+void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig, Config* waveConfig);

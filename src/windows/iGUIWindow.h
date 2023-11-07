@@ -6,7 +6,8 @@ enum class GUI
 	NONE = 0,
 	DEBUG_TOOLS = 1,
 	CAMERA_VIEWER = 2,
-	LIGHT_VIEWER = 3
+	LIGHT_VIEWER = 3,
+	WAVE_VIEWER = 4
 };
 
 class IGUIWindow

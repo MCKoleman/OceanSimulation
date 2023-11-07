@@ -10,7 +10,10 @@ void Scene::Draw(Window* window, Shader* shader)
 	// Draw all of the scene
 	shader->Use();
 	GetLight()->UpdateShader(shader);
+	shader->SetFloat("curTime", (float)glfwGetTime());
 	shader->SetVec3("viewPos", GetCamera()->GetPos());
+	for (unsigned int i = 0; i < mWaveList.size(); i++)
+		mWaveList[i]->UpdateShader(shader, i);
 
 	if (mCurEntity != nullptr)
 		mCurEntity->Draw(shader, mState, viewProj, false);

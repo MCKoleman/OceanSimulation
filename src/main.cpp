@@ -20,7 +20,7 @@ int main()
     LoadShaders(scene, config->GetConfig("shaders"));
 
     // Load default scene
-    LoadScene(scene, state, config->GetConfig("camera"), config->GetConfig("light"));
+    LoadScene(scene, state, config->GetConfig("camera"), config->GetConfig("light"), config->GetConfig("waves"));
 
     // Add GUIs
     LoadGUIs(window, state, scene);
@@ -102,6 +102,7 @@ void LoadGUIs(Window* window, State* state, Scene* scene)
     window->AddGUI(new GUIDebugToolsWindow(state, scene, true));
     window->AddGUI(new GUILightViewer(state, scene, true));
     window->AddGUI(new GUICameraViewer(state, scene, true));
+    window->AddGUI(new GUIWaveViewer(state, scene, true));
 }
 
 // Loads all defined shaders
@@ -122,12 +123,20 @@ void LoadShaders(Scene* scene, Config* shaderConfig)
 }
 
 // Loads the scene
-void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig)
+void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig, Config* waveConfig)
 {
     // Add light and camera
     scene->SetCamera(cameraConfig);
     scene->SetLight(new Light(lightConfig));
     scene->SetEntity(new PPlane("Water", 50.0f, 10));
+    Config* wave1 = waveConfig->GetConfig("wave1");
+    Config* wave2 = waveConfig->GetConfig("wave2");
+    Config* wave3 = waveConfig->GetConfig("wave3");
+    Config* wave4 = waveConfig->GetConfig("wave4");
+    scene->AddWave(new Wave(wave1->GetFloat("wavelength"), wave1->GetFloat("amplitude"), wave1->GetFloat("speed"), wave1->GetVec("direction")));
+    scene->AddWave(new Wave(wave2->GetFloat("wavelength"), wave2->GetFloat("amplitude"), wave2->GetFloat("speed"), wave2->GetVec("direction")));
+    scene->AddWave(new Wave(wave3->GetFloat("wavelength"), wave3->GetFloat("amplitude"), wave3->GetFloat("speed"), wave3->GetVec("direction")));
+    scene->AddWave(new Wave(wave4->GetFloat("wavelength"), wave4->GetFloat("amplitude"), wave4->GetFloat("speed"), wave4->GetVec("direction")));
 }
 
 // Handles calculating the number of frames per second in state

@@ -7,6 +7,8 @@
 #include "rendering/camera.h"
 #include "rendering/mesh.h"
 #include "rendering/iEntity.h"
+#include "rendering/material.h"
+#include "rendering/wave.h"
 #include <unordered_map>
 
 class Scene
@@ -19,6 +21,8 @@ protected:
 	IEntity* mCurEntity = nullptr;
 	State* mState = nullptr;
 
+	std::vector<Wave*> mWaveList;
+	std::unordered_map<std::string, Material*> mMaterialList;
 	std::unordered_map<std::string, Shader*> mShaderList;
 public:
 	// Renders the current scene
@@ -45,6 +49,7 @@ public:
 	// Returns the scene's light
 	Light* GetLight() const { return mGlobalLight; }
 
+	// Returns the scene's entity
 	IEntity* GetEntity() const { return mCurEntity; }
 
 	// Returns the current shader
@@ -52,6 +57,12 @@ public:
 
 	// Returns a reference to the shader list
 	const std::unordered_map<std::string, Shader*>& GetShaderList() { return mShaderList; }
+
+	// Returns a reference to the material list
+	const std::unordered_map<std::string, Material*>& GetMaterialList() { return mMaterialList; }
+
+	// Returns a reference to the wave list
+	const std::vector<Wave*>& GetWaveList() { return mWaveList; }
 
 	// Sets up the scene's camera with the given options
 	void SetCamera(Config* config) { if (mMainCamera != nullptr) { delete mMainCamera; } mMainCamera = new Camera(config); }
@@ -62,7 +73,11 @@ public:
 	// Sets the scene's light to the given light
 	void SetLight(Light* light) { if (mGlobalLight != nullptr) { delete mGlobalLight; } mGlobalLight = light; }
 
+	// Sets the entity to be rendered
 	void SetEntity(IEntity* entity) { if (mCurEntity != nullptr) { delete mCurEntity; } mCurEntity = entity; }
+	
+	// Adds a wave to the list
+	void AddWave(Wave* wave) { mWaveList.push_back(wave); }
 
 	// Returns the projection matrix of the scene's camera
 	const glm::mat4& GetProjectionMatrix(float aspect) { return GetCamera()->GetProjection(aspect); }
