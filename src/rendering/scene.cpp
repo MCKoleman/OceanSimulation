@@ -13,9 +13,8 @@ void Scene::Draw(Window* window, Shader* shader)
 	shader->SetVec3("viewPos", GetCamera()->GetPos());
 	mGlobalLight->UpdateShader(shader);
 	mMaterial->UpdateShader(shader);
-	for (unsigned int i = 0; i < mWaveList.size(); i++)
-		mWaveList[i]->UpdateShader(shader, i);
-
+	mFirstWave->UpdateShader(shader);
+	
 	if (mCurEntity != nullptr)
 		mCurEntity->Draw(shader, mState, viewProj, false);
 }

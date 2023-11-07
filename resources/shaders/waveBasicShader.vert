@@ -14,14 +14,15 @@ struct Wave
 	vec2 direction;
 };
 
-const int NUM_WAVES = 4;
+const int MAX_NUM_WAVES = 64;
 
 uniform mat4 MVP;
 uniform mat4 Model;
 uniform mat3 NormalModel;
 
 uniform float curTime;
-uniform Wave waves[NUM_WAVES];
+uniform int numWaves;
+uniform Wave waves[MAX_NUM_WAVES];
 
 // Calculates the height offset of the wave
 float calcWaveOffset(Wave wave, float waveForm)
@@ -42,9 +43,8 @@ vec3 calcWaveBitangent(vec2 dir, float wavePartial)
 }
 
 // Calculates the normal vector of the wave
-vec3 calcWaveNormal(Wave wave, float waveForm, float theta)
+vec3 calcWaveNormal(Wave wave, float wavePartial)
 {
-	float wavePartial = wave.frequency * wave.amplitude * waveForm * cos(theta);
 	return cross(calcWaveTangent(wave.direction, wavePartial), calcWaveBitangent(wave.direction, wavePartial));
 }
 
@@ -53,8 +53,11 @@ void main()
 {
 	vec2 pos = vec2(aPos.x, aPos.z);
 	float offset = 0.0;
-	vec3 normal = vec3(0.0f);
-	for (int i = 0; i < NUM_WAVES; i++)
+	vec3 normal = vec3(0.0);
+	float prevPartial = 0.0;
+
+	int numIters = min(numWaves, MAX_NUM_WAVES);
+	for (int i = 0; i < numIters; i++)
 	{
 		// Calculate wave offset of 
 		// H = sum[ a_i * e^(sin(x * w_i + t * p_i) - 1) ]
@@ -65,10 +68,12 @@ void main()
 		// theta = x * w_i + t * p_i
 		// waveForm = e^(sin(theta) - 1)
 		// partial = w_i * a_i * waveForm * cos(theta)
-		float theta = dot(waves[i].direction, pos * waves[i].frequency) + curTime * waves[i].phase;
+		float theta = (dot(waves[i].direction, pos) + prevPartial) * waves[i].frequency + curTime * waves[i].phase;
 		float waveForm = exp(sin(theta) - 1);
+		float wavePartial = waves[i].frequency * waves[i].amplitude * waveForm * cos(theta);
 		offset += calcWaveOffset(waves[i], waveForm);
-		normal += calcWaveNormal(waves[i], waveForm, theta);
+		normal += calcWaveNormal(waves[i], wavePartial);
+		prevPartial += wavePartial;
 	}
 	gl_Position = MVP * vec4(aPos.x, aPos.y + offset, aPos.z, 1.0);
 

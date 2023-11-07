@@ -15,14 +15,15 @@ class Scene
 {
 protected:
 	std::string mCurShader = "";
+
 	Shader* mShader = nullptr;
 	Light* mGlobalLight = nullptr;
 	Camera* mMainCamera = nullptr;
 	Material* mMaterial = nullptr;
 	IEntity* mCurEntity = nullptr;
+	Wave* mFirstWave = nullptr;
 	State* mState = nullptr;
 
-	std::vector<Wave*> mWaveList;
 	std::unordered_map<std::string, Material*> mMaterialList;
 	std::unordered_map<std::string, Shader*> mShaderList;
 public:
@@ -56,14 +57,14 @@ public:
 	// Returns the current shader
 	std::string GetCurShader() const { return mCurShader; }
 
+	// Returns a reference to the first wave
+	Wave* GetWave() const { return mFirstWave; }
+
 	// Returns a reference to the shader list
 	const std::unordered_map<std::string, Shader*>& GetShaderList() { return mShaderList; }
 
 	// Returns a reference to the material list
 	const std::unordered_map<std::string, Material*>& GetMaterialList() { return mMaterialList; }
-
-	// Returns a reference to the wave list
-	const std::vector<Wave*>& GetWaveList() { return mWaveList; }
 
 	// Sets up the scene's camera with the given options
 	void SetCamera(Config* config) { if (mMainCamera != nullptr) { delete mMainCamera; } mMainCamera = new Camera(config); }
@@ -81,7 +82,7 @@ public:
 	void SetEntity(IEntity* entity) { if (mCurEntity != nullptr) { delete mCurEntity; } mCurEntity = entity; }
 	
 	// Adds a wave to the list
-	void AddWave(Wave* wave) { mWaveList.push_back(wave); }
+	void SetWave(Wave* wave) { if (mFirstWave != nullptr) { delete mFirstWave; } mFirstWave = wave; }
 
 	// Returns the projection matrix of the scene's camera
 	const glm::mat4& GetProjectionMatrix(float aspect) { return GetCamera()->GetProjection(aspect); }

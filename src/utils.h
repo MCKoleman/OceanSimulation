@@ -122,6 +122,50 @@ static const std::string DecimalToHex(int value)
 }
 
 /// <summary>
+/// Returns a random number between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random float in [min, max] (default [0, 1])</returns>
+static const float GetRandFloat(float min = 0.0f, float max = 1.0f)
+{
+    return (rand() * (max - min)) / RAND_MAX + min;
+}
+
+/// <summary>
+/// Returns a vec2 of random numbers between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random vec2 in [min, max] (default [0, 1])</returns>
+static const glm::vec2 GetRandVec2(float min = 0.0f, float max = 1.0f)
+{
+    return glm::vec2(GetRandFloat(min, max), GetRandFloat(min, max));
+}
+
+/// <summary>
+/// Returns a vec3 of random numbers between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random vec3 in [min, max] (default [0, 1])</returns>
+static const glm::vec3 GetRandVec3(float min = 0.0f, float max = 1.0f)
+{
+    return glm::vec3(GetRandFloat(min, max), GetRandFloat(min, max), GetRandFloat(min, max));
+}
+
+/// <summary>
+/// Returns a vec4 of random numbers between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random vec4 in [min, max] (default [0, 1])</returns>
+static const glm::vec4 GetRandVec4(float min = 0.0f, float max = 1.0f)
+{
+    return glm::vec4(GetRandFloat(min, max), GetRandFloat(min, max), GetRandFloat(min, max), GetRandFloat(min, max));
+}
+
+/// <summary>
 /// Converts the given vec3 to its hexadecimal equivalent
 /// </summary>
 /// <param name="vec">Vec3 to convert</param>
@@ -137,6 +181,18 @@ static const std::string Vec3ToHex(const glm::vec3& vec)
     hex += DecimalToHex(g);
     hex += DecimalToHex(b);
     return hex;
+}
+
+static const glm::vec2 DegreesToDir(float degrees)
+{
+    return glm::normalize(glm::vec2(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))));
+}
+
+static const std::string Vec2ToString(const glm::vec2& vec)
+{
+    std::ostringstream ss;
+    ss << "[" << vec.x << ", " << vec.y << "]";
+    return ss.str();
 }
 
 static const std::string Vec3ToString(const glm::vec3& vec)

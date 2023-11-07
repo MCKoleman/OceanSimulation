@@ -130,14 +130,7 @@ void LoadScene(Scene* scene, State* state, Config* config)
     scene->SetLight(new Light(config->GetConfig("light")));
     scene->SetEntity(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
     scene->SetMaterial(new Material(config->GetVec("material.kd"), config->GetVec("material.ka"), config->GetVec("material.ks"), config->GetFloat("material.ns")));
-    Config* wave1 = config->GetConfig("waves.wave1");
-    Config* wave2 = config->GetConfig("waves.wave2");
-    Config* wave3 = config->GetConfig("waves.wave3");
-    Config* wave4 = config->GetConfig("waves.wave4");
-    scene->AddWave(new Wave(wave1->GetFloat("wavelength"), wave1->GetFloat("amplitude"), wave1->GetFloat("speed"), wave1->GetVec("direction")));
-    scene->AddWave(new Wave(wave2->GetFloat("wavelength"), wave2->GetFloat("amplitude"), wave2->GetFloat("speed"), wave2->GetVec("direction")));
-    scene->AddWave(new Wave(wave3->GetFloat("wavelength"), wave3->GetFloat("amplitude"), wave3->GetFloat("speed"), wave3->GetVec("direction")));
-    scene->AddWave(new Wave(wave4->GetFloat("wavelength"), wave4->GetFloat("amplitude"), wave4->GetFloat("speed"), wave4->GetVec("direction")));
+    scene->SetWave(new Wave(config->GetConfig("wave")));
 }
 
 // Handles calculating the number of frames per second in state

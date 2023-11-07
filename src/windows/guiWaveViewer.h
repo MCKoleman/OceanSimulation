@@ -19,17 +19,13 @@ public:
 
 		if (ImGui::Begin("Wave Viewer", &mIsEnabled, ImGuiWindowFlags_AlwaysAutoResize))
 		{
-			auto& waveList = mScene->GetWaveList();
-			for (unsigned int i = 0; i < waveList.size(); i++)
-			{
-				if (GUIWindowUtils::Deselectable("Wave" + std::to_string(i), mSelectedWave, waveList[i]))
-				{
-					waveList[i]->wavelength = GUIWindowUtils::InputFloat("Wavelength", waveList[i]->wavelength);
-					waveList[i]->amplitude = GUIWindowUtils::InputFloat("Amplitude", waveList[i]->amplitude);
-					waveList[i]->speed = GUIWindowUtils::InputFloat("Speed", waveList[i]->speed);
-					waveList[i]->direction = GUIWindowUtils::InputVec2("Direction", waveList[i]->direction);
-				}
-			}
+			auto* wave = mScene->GetWave();
+			wave->wavelength = GUIWindowUtils::InputFloat("Wavelength", wave->wavelength);
+			wave->amplitude = GUIWindowUtils::InputFloat("Amplitude", wave->amplitude);
+			wave->speed = GUIWindowUtils::InputFloat("Speed", wave->speed);
+			wave->direction = GUIWindowUtils::InputFloat("Direction", wave->direction);
+			wave->directionRange = GUIWindowUtils::InputFloat("Direction Range", wave->directionRange);
+			wave->numWaves = GUIWindowUtils::InputInt("Number of Waves", wave->numWaves);
 		}
 		ImGui::End();
 	}
