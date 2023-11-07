@@ -127,6 +127,7 @@ void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightCo
     // Add light and camera
     scene->SetCamera(cameraConfig);
     scene->SetLight(new Light(lightConfig));
+    scene->SetEntity(new PPlane("Water", 50.0f, 10));
 }
 
 // Handles calculating the number of frames per second in state

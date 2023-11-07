@@ -13,6 +13,7 @@
 
 #include "rendering/shader.h"
 #include "rendering/scene.h"
+#include "rendering/pPlane.h"
 
 constexpr unsigned int SCR_WIDTH = 1280;
 constexpr unsigned int SCR_HEIGHT = 720;

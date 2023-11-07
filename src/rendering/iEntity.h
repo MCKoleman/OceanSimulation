@@ -47,8 +47,7 @@ protected:
 public:
 	// Draws the object to the screen
 	virtual void Draw(Shader* shader, State* state, const glm::mat4& viewProj, bool drawMats = false) = 0;
-	// Draws the object's shadows to the screen
-	virtual void DrawShadows(Shader* shader, State* state) = 0;
+
 	// Gets the position of the object
 	virtual const glm::vec3 GetPos() { return mPos; }
 	// Gets the rotation of the object

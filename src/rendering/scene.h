@@ -45,6 +45,8 @@ public:
 	// Returns the scene's light
 	Light* GetLight() const { return mGlobalLight; }
 
+	IEntity* GetEntity() const { return mCurEntity; }
+
 	// Returns the current shader
 	std::string GetCurShader() const { return mCurShader; }
 
@@ -59,6 +61,8 @@ public:
 
 	// Sets the scene's light to the given light
 	void SetLight(Light* light) { if (mGlobalLight != nullptr) { delete mGlobalLight; } mGlobalLight = light; }
+
+	void SetEntity(IEntity* entity) { if (mCurEntity != nullptr) { delete mCurEntity; } mCurEntity = entity; }
 
 	// Returns the projection matrix of the scene's camera
 	const glm::mat4& GetProjectionMatrix(float aspect) { return GetCamera()->GetProjection(aspect); }
