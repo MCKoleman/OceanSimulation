@@ -1,10 +1,9 @@
 #pragma once
 #include "utils.h"
+#include "state.h"
 #include "windows/iGUIWindow.h"
 #include "windows/guiWindowUtils.h"
 #include "rendering/scene.h"
-#include "rendering/camera.h"
-#include "state.h"
 #include <map>
 
 /// <summary>
@@ -45,20 +44,6 @@ public:
 					mScene->UseShader(curShader);
 				}
 			}
-
-			// Camera settings
-			ImGui::Separator();
-			ImGui::Text("Camera Settings");
-			Camera* cam = mScene->GetCamera();
-			cam->SetPos(GUIWindowUtils::InputVec3("Position", cam->GetPos()));
-			cam->LookAt(GUIWindowUtils::InputVec3("Target", cam->GetTarget()));
-			cam->SetPivot(GUIWindowUtils::InputVec3("Pivot", cam->GetPivot()));
-			cam->SetOrthSize(GUIWindowUtils::InputFloat("Size", cam->GetOrthSize()));
-			cam->SetFOV(GUIWindowUtils::InputFloat("FOV", cam->GetFOV()));
-			cam->SetNearClip(GUIWindowUtils::InputFloat("Near Clip", cam->GetNearClip()));
-			cam->SetFarClip(GUIWindowUtils::InputFloat("Far Clip", cam->GetFarClip()));
-			cam->SetPerspective(GUIWindowUtils::Checkbox("Perspective", cam->IsPerspective()));
-			cam->SetWireframe(GUIWindowUtils::Checkbox("Wireframe", cam->IsWireframe()));
 		}
 		ImGui::End();
 	}

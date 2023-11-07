@@ -100,6 +100,8 @@ void OpenGLDraw(Window* window, State* state, Scene* scene)
 void LoadGUIs(Window* window, State* state, Scene* scene)
 {
     window->AddGUI(new GUIDebugToolsWindow(state, scene, true));
+    window->AddGUI(new GUILightViewer(state, scene, true));
+    window->AddGUI(new GUICameraViewer(state, scene, true));
 }
 
 // Loads all defined shaders

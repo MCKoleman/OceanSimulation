@@ -4,7 +4,9 @@
 enum class GUI
 {
 	NONE = 0,
-	DEBUG_TOOLS = 1
+	DEBUG_TOOLS = 1,
+	CAMERA_VIEWER = 2,
+	LIGHT_VIEWER = 3
 };
 
 class IGUIWindow
