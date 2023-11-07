@@ -3,7 +3,7 @@
 
 // Opens a OpenGL window with the given name
 // -----------------------------------------
-Window::Window(int width, int height, const std::string& name, Config* config)
+Window::Window(int width, int height, const std::string& name, Config* config, State* state)
 {
     // Set class variables
     // ---------------------------
@@ -135,9 +135,35 @@ void Window::DrawGUI()
         }
     }
 
+    for (auto iter = mGUIList.begin(); iter != mGUIList.end(); ++iter)
+        if (iter->second->IsEnabled())
+            iter->second->Draw();
+
     // Rendering
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+// Adds the given GUI window
+void Window::AddGUI(IGUIWindow* gui)
+{
+    if (mGUIList.find(gui->GetType()) != mGUIList.end())
+    {
+        std::cout << "ERROR::WINDOW::EXISTS GUI with type " << gui->GetName() << " already exists." << std::endl;
+        return;
+    }
+    mGUIList.emplace(gui->GetType(), gui);
+}
+
+// Gets the GUI with the given type
+IGUIWindow* Window::GetGUI(GUI type)
+{
+    if (mGUIList.find(type) == mGUIList.end())
+    {
+        std::cout << "ERROR::WINDOW::NULL GUI with type " << (int)type << " is not open." << std::endl;
+        return nullptr;
+    }
+    return mGUIList[type];
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

@@ -13,6 +13,7 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <stb_image.h>
 #include <string>
+constexpr auto PI = 3.141592653f;
 
 constexpr auto TEXTURE_DIR = "resources/textures/";
 constexpr auto FONT_DIR = "resources/fonts/";
