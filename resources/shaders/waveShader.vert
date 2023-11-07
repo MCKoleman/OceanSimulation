@@ -23,27 +23,32 @@ uniform mat3 NormalModel;
 uniform float curTime;
 uniform Wave waves[NUM_WAVES];
 
-float calcWaveOffset(Wave wave, float sinOffset)
+// Calculates the height offset of the wave
+float calcWaveOffset(Wave wave, float waveForm)
 {
-	return wave.amplitude * sin(sinOffset);
+	return wave.amplitude * waveForm;
 }
 
-vec3 calcWaveTangent(vec2 dir, float dirOffset)
+// Calculates the tangent vector of the wave
+vec3 calcWaveTangent(vec2 dir, float wavePartial)
 {
-	return vec3(1.0, 0.0, dir.x * dirOffset);
+	return vec3(1.0, 0.0, dir.x * wavePartial);
 }
 
-vec3 calcWaveBitangent(vec2 dir, float dirOffset)
+// Calculates the bitangent vector of the wave
+vec3 calcWaveBitangent(vec2 dir, float wavePartial)
 {
-	return vec3(0.0, 1.0, dir.y * dirOffset);
+	return vec3(0.0, 1.0, dir.y * wavePartial);
 }
 
-vec3 calcWaveNormal(Wave wave, float sinOffset)
+// Calculates the normal vector of the wave
+vec3 calcWaveNormal(Wave wave, float waveForm, float theta)
 {
-	float dirOffset = wave.frequency * wave.amplitude * cos(sinOffset);
-	return cross(calcWaveTangent(wave.direction, dirOffset), calcWaveBitangent(wave.direction, dirOffset));
+	float wavePartial = wave.frequency * wave.amplitude * waveForm * cos(theta);
+	return cross(calcWaveTangent(wave.direction, wavePartial), calcWaveBitangent(wave.direction, wavePartial));
 }
 
+// Main wave shader program
 void main()
 {
 	vec2 pos = vec2(aPos.x, aPos.z);
@@ -51,9 +56,19 @@ void main()
 	vec3 normal = vec3(0.0f);
 	for (int i = 0; i < NUM_WAVES; i++)
 	{
-		float sinOffset = dot(waves[i].direction, pos * waves[i].frequency) + curTime * waves[i].phase;
-		offset += calcWaveOffset(waves[i], sinOffset);
-		normal += calcWaveNormal(waves[i], sinOffset);
+		// Calculate wave offset of 
+		// H = sum[ a_i * e^(sin(x * w_i + t * p_i) - 1) ]
+		// And wave normal of
+		// d/dx = d_x * sum[ w_i * a_i * e^(sin(x * w_i + t * p_i) - 1) * cos(x * w_i + t * p_i) ]
+		// d/dz = d_z * sum[ w_i * a_i * e^(sin(x * w_i + t * p_i) - 1) * cos(x * w_i + t * p_i) ]
+		// Where
+		// theta = x * w_i + t * p_i
+		// waveForm = e^(sin(theta) - 1)
+		// partial = w_i * a_i * waveForm * cos(theta)
+		float theta = dot(waves[i].direction, pos * waves[i].frequency) + curTime * waves[i].phase;
+		float waveForm = exp(sin(theta) - 1);
+		offset += calcWaveOffset(waves[i], waveForm);
+		normal += calcWaveNormal(waves[i], waveForm, theta);
 	}
 	gl_Position = MVP * vec4(aPos.x, aPos.y + offset, aPos.z, 1.0);
 
