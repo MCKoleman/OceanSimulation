@@ -70,6 +70,23 @@ static const int Clamp(int value, int min, int max)
 }
 
 /// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const float Clamp(float value, float min, float max)
+{
+    if (value > max)
+        return max;
+    else if (value < min)
+        return min;
+    else
+        return value;
+}
+
+/// <summary>
 /// Converts the given decimal value to hexadecimal.
 /// Borrowed from: 
 /// https://www.geeksforgeeks.org/convert-the-given-rgb-color-code-to-hex-color-code/

@@ -26,6 +26,8 @@ public:
 			wave->direction = GUIWindowUtils::InputFloat("Direction", wave->direction);
 			wave->directionRange = GUIWindowUtils::InputFloat("Direction Range", wave->directionRange);
 			wave->numWaves = GUIWindowUtils::InputInt("Number of Waves", wave->numWaves);
+			wave->amplitudeDampingRate = Clamp(GUIWindowUtils::InputFloat("Amplitude Growth Rate", wave->amplitudeDampingRate), 0.0f, 1.0f);
+			wave->frequencyGrowthRate = Clamp(GUIWindowUtils::InputFloat("Frequency Growth Rate", wave->frequencyGrowthRate), 0.0f, 1.5f);
 		}
 		ImGui::End();
 	}

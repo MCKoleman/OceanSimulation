@@ -35,6 +35,8 @@ public:
 	float speed = 0.0f;
 	float direction = 0.0f;
 	float directionRange = 0.0f;
+	float frequencyGrowthRate = 1.18f;
+	float amplitudeDampingRate = 0.82f;
 	int numWaves = 8;
 
 	/// <summary>
@@ -63,8 +65,8 @@ public:
 			shader->SetVec2(waveName + ".direction", curDirection);
 
 			// Setup next wave
-			curFrequency *= 1.18f;
-			curAmplitude *= 0.82f;
+			curFrequency *= frequencyGrowthRate;
+			curAmplitude *= amplitudeDampingRate;
 		}
 	}
 

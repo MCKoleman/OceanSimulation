@@ -11,7 +11,6 @@ Window::Window(int width, int height, const std::string& name, Config* config, S
     mHeight = height;
     mName = name;
     Config* styleConfig = config->GetConfig("style");
-    Config* qualityConfig = config->GetConfig("quality");
 
     // glfw: initialize and configure
     // ------------------------------

@@ -94,6 +94,7 @@ void OpenGLDraw(Window* window, State* state, Scene* scene)
 
     // Render the scene
     scene->Draw(window, scene->GetShader(scene->GetCurShader()));
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 // Opens all defined GUIs

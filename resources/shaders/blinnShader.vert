@@ -12,10 +12,12 @@ out VS_OUT {
 
 struct Light {
     vec3 position;
+	vec3 direction;
 
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+	int type;
 };
 
 uniform mat4 MVP;

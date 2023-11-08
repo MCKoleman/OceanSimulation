@@ -14,7 +14,7 @@ struct Wave
 	vec2 direction;
 };
 
-const int MAX_NUM_WAVES = 64;
+const int MAX_NUM_WAVES = 32;
 
 uniform mat4 MVP;
 uniform mat4 Model;
