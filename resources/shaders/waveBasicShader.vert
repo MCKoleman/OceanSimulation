@@ -45,7 +45,8 @@ vec3 calcWaveBitangent(vec2 dir, float wavePartial)
 // Calculates the normal vector of the wave
 vec3 calcWaveNormal(Wave wave, float wavePartial)
 {
-	return cross(calcWaveTangent(wave.direction, wavePartial), calcWaveBitangent(wave.direction, wavePartial));
+	return vec3(wave.direction.x * wavePartial, wave.direction.y * wavePartial, 0.0);
+	//cross(calcWaveTangent(wave.direction, wavePartial), calcWaveBitangent(wave.direction, wavePartial));
 }
 
 // Main wave shader program
@@ -73,10 +74,10 @@ void main()
 		float wavePartial = waves[i].frequency * waves[i].amplitude * waveForm * cos(theta);
 		offset += calcWaveOffset(waves[i], waveForm);
 		normal += calcWaveNormal(waves[i], wavePartial);
-		prevPartial += vec2(waves[i].direction.x * wavePartial, waves[i].direction.y * wavePartial);
+		prevPartial += waves[i].direction * wavePartial;
 	}
 	gl_Position = MVP * vec4(aPos.x, aPos.y + offset, aPos.z, 1.0);
 
 	vs_out.FragPos = vec3(Model * vec4(aPos, 1.0));
-	vs_out.Normal = normalize(normal);
+	vs_out.Normal = normalize(vec3(-normal.x, 1.0, -normal.y));
 }

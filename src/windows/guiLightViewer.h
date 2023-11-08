@@ -63,7 +63,7 @@ public:
             }
 
             // Light color
-            light->SetBaseColor(GUIWindowUtils::ColorPicker("Light Color", light->GetBaseColor()));
+            light->SetColor(GUIWindowUtils::ColorPicker("Light Color", light->GetColor()));
 
         }
         ImGui::End();

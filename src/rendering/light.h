@@ -82,7 +82,6 @@ public:
 
 	LightType GetType() { return mType; }
 	glm::vec3 GetColor() { return mColor; }
-	glm::vec3 GetBaseColor() { return mBaseColor; }
 	glm::vec3 GetOffset() { return mOffset; }
 	glm::vec3 GetDir() { return mDir; }
 	glm::vec3 GetPos() { return mPos; }
@@ -95,7 +94,6 @@ public:
 	float GetSpotOuterRadius() { return mSpotOuter; }
 
 	virtual void SetColor(const glm::vec3& color) { mColor = color; }
-	virtual void SetBaseColor(const glm::vec3& color) { mBaseColor = color; }
 	virtual void SetOffset(const glm::vec3& offset) { mOffset = offset; CalcMatrices(); }
 	virtual void SetPos(const glm::vec3& pos) { mPos = pos; CalcMatrices(); }
 	virtual void SetDir(const glm::vec3& dir) { mDir = dir; CalcMatrices(); }
@@ -124,7 +122,7 @@ public:
 	Light(const LightType type = LightType::POINT, const glm::vec3& pos = glm::vec3(1.0f), const glm::vec3& dir = glm::vec3(-1.0f), 
 		const glm::vec3& color = glm::vec3(1.0f), const float kd = 1.0f, const float ka = 0.1f, const float ks = 0.5f, const bool gamma = true, 
 		const float range = 13.0f, const float spotInner = 25, const float spotOuter = 35)
-		: mType(type), mColor(color), mBaseColor(color), mDir(dir), mPos(pos), mKD(kd), mKA(ka), mKS(ks), mOffset(pos), mGamma(gamma), 
+		: mType(type), mColor(color), mDir(dir), mPos(pos), mKD(kd), mKA(ka), mKS(ks), mOffset(pos), mGamma(gamma), 
 		mSpotInner(spotInner), mSpotOuter(spotOuter)
 	{
 		mLightSize = 10.0f;
