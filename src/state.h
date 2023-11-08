@@ -8,6 +8,7 @@ private:
 	Config* mConfig = nullptr;
 public:
 	bool drawGUI = true;
+	bool waveInterference = true;
 
 	std::string fps = "";
 	std::string frameTime = "";

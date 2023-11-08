@@ -11,6 +11,7 @@ void Scene::Draw(Window* window, Shader* shader)
 	shader->Use();
 	shader->SetFloat("curTime", (float)glfwGetTime());
 	shader->SetVec3("viewPos", GetCamera()->GetPos());
+	shader->SetBool("interference", mState->waveInterference);
 	mGlobalLight->UpdateShader(shader);
 	mMaterial->UpdateShader(shader);
 	mFirstWave->UpdateShader(shader);

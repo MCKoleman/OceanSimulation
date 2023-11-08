@@ -54,6 +54,7 @@ public:
 			bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
 			if (divEdited || sizeEdited)
 				waterPlane->GenPlane(size, divs);
+			mState->waveInterference = GUIWindowUtils::Checkbox("Interference", mState->waveInterference);
 		}
 		ImGui::End();
 	}

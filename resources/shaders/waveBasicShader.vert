@@ -20,6 +20,7 @@ uniform mat4 MVP;
 uniform mat4 Model;
 uniform mat3 NormalModel;
 
+uniform bool interference;
 uniform float curTime;
 uniform int numWaves;
 uniform Wave waves[MAX_NUM_WAVES];
@@ -74,7 +75,8 @@ void main()
 		float wavePartial = waves[i].frequency * waves[i].amplitude * waveForm * cos(theta);
 		offset += calcWaveOffset(waves[i], waveForm);
 		normal += calcWaveNormal(waves[i], wavePartial);
-		prevPartial += waves[i].direction * wavePartial;
+		if (interference)
+			prevPartial += waves[i].direction * wavePartial;
 	}
 	gl_Position = MVP * vec4(aPos.x, aPos.y + offset, aPos.z, 1.0);
 
