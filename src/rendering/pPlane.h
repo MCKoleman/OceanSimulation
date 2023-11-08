@@ -31,11 +31,6 @@ public:
 		shader->SetMat4("MVP", mvp);
 		shader->SetMat4("Model", modelMatrix);
 		shader->SetMat3("NormalModel", normalModel);
-		shader->SetVec3("material.ambient", glm::vec3(0.1f));
-		shader->SetVec3("material.diffuse", glm::vec3(0.1f, 0.1f, 0.9f));
-		shader->SetVec3("material.specular", glm::vec3(1.0f));
-		shader->SetFloat("material.shininess", 8.0f);
-		
 
 		if (mDrawOver)
 			glDisable(GL_DEPTH_TEST);

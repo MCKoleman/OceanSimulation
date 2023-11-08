@@ -25,7 +25,6 @@ protected:
 	Wave* mFirstWave = nullptr;
 	State* mState = nullptr;
 
-	std::unordered_map<std::string, Material*> mMaterialList;
 	std::unordered_map<std::string, Shader*> mShaderList;
 public:
 	// Renders the current scene
@@ -61,11 +60,11 @@ public:
 	// Returns a reference to the first wave
 	Wave* GetWave() const { return mFirstWave; }
 
+	// Returns a reference to the material list
+	Material* GetMaterial() { return mMaterial; }
+
 	// Returns a reference to the shader list
 	const std::unordered_map<std::string, Shader*>& GetShaderList() { return mShaderList; }
-
-	// Returns a reference to the material list
-	const std::unordered_map<std::string, Material*>& GetMaterialList() { return mMaterialList; }
 
 	// Sets up the scene's camera with the given options
 	void SetCamera(Config* config) { if (mMainCamera != nullptr) { delete mMainCamera; } mMainCamera = new Camera(config); }

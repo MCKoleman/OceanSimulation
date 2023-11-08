@@ -104,6 +104,7 @@ void LoadGUIs(Window* window, State* state, Scene* scene)
     window->AddGUI(new GUILightViewer(state, scene, true));
     window->AddGUI(new GUICameraViewer(state, scene, true));
     window->AddGUI(new GUIWaveViewer(state, scene, true));
+    window->AddGUI(new GUIMaterialViewer(state, scene, true));
 }
 
 // Loads all defined shaders

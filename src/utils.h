@@ -87,6 +87,18 @@ static const float Clamp(float value, float min, float max)
 }
 
 /// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const glm::vec3 Clamp(const glm::vec3& value, float min, float max)
+{
+    return glm::vec3(Clamp(value.x, min, max), Clamp(value.y, min, max), Clamp(value.z, min, max));
+}
+
+/// <summary>
 /// Converts the given decimal value to hexadecimal.
 /// Borrowed from: 
 /// https://www.geeksforgeeks.org/convert-the-given-rgb-color-code-to-hex-color-code/

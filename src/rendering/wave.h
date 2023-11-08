@@ -70,12 +70,13 @@ public:
 		}
 	}
 
-	explicit Wave(float _wavelength, float _amplitude, float _speed, float _dir, float _dirRange, int _numWaves)
-		: wavelength(_wavelength), amplitude(_amplitude), speed(_speed), direction(_dir), directionRange(_dirRange), numWaves(_numWaves)
+	explicit Wave(float _wavelength, float _amplitude, float _speed, float _dir, float _dirRange, int _numWaves, float _freqGrowth, float _ampDamp)
+		: wavelength(_wavelength), amplitude(_amplitude), speed(_speed), direction(_dir), 
+		directionRange(_dirRange), numWaves(_numWaves), frequencyGrowthRate(_freqGrowth), amplitudeDampingRate(_ampDamp)
 	{}
 
 	explicit Wave(Config* config)
-		: Wave(config->GetFloat("wavelength"), config->GetFloat("amplitude"), config->GetFloat("speed"), 
-			config->GetFloat("direction"), config->GetFloat("directionRange"), config->GetInt("numWaves"))
+		: Wave(config->GetFloat("wavelength"), config->GetFloat("amplitude"), config->GetFloat("speed"), config->GetFloat("direction"), 
+			config->GetFloat("directionRange"), config->GetInt("numWaves"), config->GetFloat("frequencyGrowth"), config->GetFloat("amplitudeDamping"))
 	{}
 };

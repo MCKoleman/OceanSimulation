@@ -76,6 +76,8 @@
     "speed": 1.2,
     "direction": 0.0,
     "directionRange": 180.0,
-    "numWaves": 8
+    "numWaves": 8,
+    "frequencyGrowth": 1.16,
+    "amplitudeDamping": 0.83
   }
 }

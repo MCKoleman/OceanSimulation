@@ -9,6 +9,7 @@
 #include "windows/window.h"
 #include "windows/guiDebugToolsWindow.h"
 #include "windows/guiCameraViewer.h"
+#include "windows/guiMaterialViewer.h"
 #include "windows/guiLightViewer.h"
 #include "windows/guiWaveViewer.h"
 

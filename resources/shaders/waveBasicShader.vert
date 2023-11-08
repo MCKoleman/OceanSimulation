@@ -54,7 +54,7 @@ void main()
 	vec2 pos = vec2(aPos.x, aPos.z);
 	float offset = 0.0;
 	vec3 normal = vec3(0.0);
-	float prevPartial = 0.0;
+	vec2 prevPartial = vec2(0.0f, 0.0f);
 
 	int numIters = min(numWaves, MAX_NUM_WAVES);
 	for (int i = 0; i < numIters; i++)
@@ -68,12 +68,12 @@ void main()
 		// theta = x * w_i + t * p_i
 		// waveForm = e^(sin(theta) - 1)
 		// partial = w_i * a_i * waveForm * cos(theta)
-		float theta = (dot(waves[i].direction, pos) + prevPartial) * waves[i].frequency + curTime * waves[i].phase;
+		float theta = (dot(waves[i].direction, pos + prevPartial)) * waves[i].frequency + curTime * waves[i].phase;
 		float waveForm = exp(sin(theta) - 1);
 		float wavePartial = waves[i].frequency * waves[i].amplitude * waveForm * cos(theta);
 		offset += calcWaveOffset(waves[i], waveForm);
 		normal += calcWaveNormal(waves[i], wavePartial);
-		prevPartial += wavePartial;
+		prevPartial += vec2(waves[i].direction.x * wavePartial, waves[i].direction.y * wavePartial);
 	}
 	gl_Position = MVP * vec4(aPos.x, aPos.y + offset, aPos.z, 1.0);
 
