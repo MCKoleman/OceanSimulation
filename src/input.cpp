@@ -47,6 +47,15 @@ bool ProcessInput(Window* window, Scene* scene, State* state, InputLocks* locks,
         didReceiveInput = true;
     }
 
+    // Toggle Wireframe
+    if (B_PRESS) {
+        if (!locks->lockB) {
+            scene->GetCamera()->SetWireframe(!scene->GetCamera()->IsWireframe());
+            locks->lockB = true;
+        }
+        didReceiveInput = true;
+    }
+
 
     /* ==================================================== Mouse Input ===================================================== */
     // Mouse input
@@ -150,5 +159,6 @@ glm::vec3 GetWASDZX(Window* window)
 void InputLocks::ClearLocks()
 {
     lockSpace = false;
+    lockB = false;
     rerender = false;
 }
