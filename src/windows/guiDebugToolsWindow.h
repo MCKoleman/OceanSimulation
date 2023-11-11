@@ -48,9 +48,9 @@ public:
 			ImGui::Separator();
 			PPlane* waterPlane = mScene->GetWaterPlane();
 			ImGui::Text("Water");
-			int divs = Clamp(GUIWindowUtils::InputInt("Divisions", waterPlane->GetCurDivisions()), 1, 1000);
+			int divs = GUIWindowUtils::InputInt("Divisions", waterPlane->GetCurDivisions(), 1, 1000);
 			bool divEdited = ImGui::IsItemDeactivatedAfterEdit();
-			float size = GUIWindowUtils::InputFloat("Size", waterPlane->GetCurSize());
+			float size = GUIWindowUtils::InputFloat("Size", waterPlane->GetCurSize(), 0.1f, 10000.0f);
 			bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
 			if (divEdited || sizeEdited)
 				waterPlane->GenPlane(size, divs);

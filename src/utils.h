@@ -93,9 +93,33 @@ static const float Clamp(float value, float min, float max)
 /// <param name="min">Minimum</param>
 /// <param name="max">Maximum value</param>
 /// <returns>Value in range [min, max]</returns>
+static const glm::vec2 Clamp(const glm::vec2& value, float min, float max)
+{
+    return glm::vec2(Clamp(value.x, min, max), Clamp(value.y, min, max));
+}
+
+/// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
 static const glm::vec3 Clamp(const glm::vec3& value, float min, float max)
 {
     return glm::vec3(Clamp(value.x, min, max), Clamp(value.y, min, max), Clamp(value.z, min, max));
+}
+
+/// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const glm::vec4 Clamp(const glm::vec4& value, float min, float max)
+{
+    return glm::vec4(Clamp(value.x, min, max), Clamp(value.y, min, max), Clamp(value.z, min, max), Clamp(value.w, min, max));
 }
 
 /// <summary>
