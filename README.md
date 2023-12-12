@@ -1,6 +1,12 @@
 # Ocean Simulation
 This program attempts to create a realistic lighting simulation of an ocean.<br/>
 
+## Getting Started With The Simulator
+To get the simulator to work, you need to use [CMake](https://cmake.org/cmake/help/latest/manual/cmake-gui.1.html) to generate the code.
+![The file setup should look like this](./resources/images/Using-CMake-GUI.png)
+
+When running the simulator, you can move the camera by holding the `ALT` key and either the `W`, `A`, `S`, and `D` keys to move forward, left, right, and down or the arrow keys to change the camera's pitch.
+
 # License
 MIT License
 
