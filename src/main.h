@@ -46,7 +46,7 @@ void LoadGUIs(Window* window, State* state, Scene* scene);
 /// </summary>
 /// <param name="scene">Scene to load shaders to</param>
 /// <param name="shaderConfig">Config to load shaders from</param>
-void LoadShaders(Scene* scene, Config* shaderConfig);
+void LoadShaders(Scene* scene, Config* shaderConfig, Config* config);
 
 /// <summary>
 /// Calculates the frames per second

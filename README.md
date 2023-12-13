@@ -4,6 +4,8 @@ This program attempts to create a realistic lighting simulation of an ocean.<br/
 ## Getting Started With The Simulator
 To get the simulator to work, you need to use [CMake](https://cmake.org/cmake/help/latest/manual/cmake-gui.1.html) to generate the code.
 ![The file setup should look like this](./resources/images/Using-CMake-GUI.png)
+
+
 Set up file directories as you see in the image above (source code is in the root and build it in `./bin`) then complete the following steps
 1. Hit `Configure`, choose the version of Visual Studio to use, then wait for the "Configuring done" message to pop up in the terminal
 2. Select `Generate` and use the default values if prompted
@@ -11,7 +13,7 @@ Set up file directories as you see in the image above (source code is in the roo
 4. In Visual Studio, run the debugger (CMake will have created this for you!)
 5. You now should have the simulation running on your machine (after it loads using the terminal)!
 
-When running the simulator, you can move the camera by holding the `ALT` key and either the `W`, `A`, `S`, and `D` keys to move forward, left, right, and down or the arrow keys to change the camera's pitch. Feel free to alter the values in the menu to see how it effects the simulation.
+When running the simulator, you can move the camera by holding the `ALT` key and either the `W`, `A`, `S`, and `D` keys to move forward, left, right, and down or the arrow keys to change the camera's pitch. Feel free to alter the values in the menu to see how it effects the simulation. Keep in mind that the movement of the camera is only a 2D plane in parellel with the XZ plane, so to move in the Y direction you have to tilt the camera and then move forwards or backwards.
 
 ## Helpful Resources
 To understand the equations we arrived to in creating this simulation, we used the following resource in developing this project:
@@ -20,6 +22,9 @@ To understand the equations we arrived to in creating this simulation, we used t
     - Part 1 [video](https://www.youtube.com/watch?v=PH9q0HNBjT4)
     - Part 2 [video](https://www.youtube.com/watch?v=yPfagLeUa7k)
     - His [repository](https://github.com/GarrettGunnell/Water)
+
+# Citations
+We did not create our own skybox; we downloaded the hdr file from [this website](https://polyhaven.com/a/kloppenheim_06_puresky)
 
 # License
 MIT License

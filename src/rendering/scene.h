@@ -10,6 +10,7 @@
 #include "rendering/pPlane.h"
 #include "rendering/material.h"
 #include "rendering/wave.h"
+#include "rendering/texture.h"
 #include <unordered_map>
 
 class Scene
@@ -24,6 +25,7 @@ protected:
 	PPlane* mWaterPlane = nullptr;
 	Wave* mFirstWave = nullptr;
 	State* mState = nullptr;
+	Texture* mCubemap = nullptr;
 
 	std::unordered_map<std::string, Shader*> mShaderList;
 public:
@@ -32,6 +34,9 @@ public:
 
 	// Activates the shader with the given name for the scene
 	void UseShader(const std::string& name = "");
+
+	// Activates the cubebox shader 
+	void Scene::UseSkybox(const std::string& name);
 
 	// Creates a shader for the scene with the given name from the source file of the given name
 	Shader* CreateShader(const std::string& name, bool loadGeom);
@@ -50,6 +55,9 @@ public:
 
 	// Returns the scene's light
 	Light* GetLight() const { return mGlobalLight; }
+
+	// Returns Texture of Cubemap
+	Texture* GetCubemap() const { return mCubemap; }
 
 	// Returns the scene's plane
 	PPlane* GetWaterPlane() const { return mWaterPlane; }
@@ -71,6 +79,11 @@ public:
 
 	// Sets the scene's camera to the given camera
 	void SetCamera(Camera* cam) { if (mMainCamera != nullptr) { delete mMainCamera; } mMainCamera = cam; }
+
+	// Sets the cubemap to wrap around the sceme
+	void SetCubemap(Texture* cubemap) {
+		if (mCubemap != nullptr) { delete mCubemap; } mCubemap = cubemap;
+	}
 
 	// Sets the scene's light to the given light
 	void SetLight(Light* light) { if (mGlobalLight != nullptr) { delete mGlobalLight; } mGlobalLight = light; }

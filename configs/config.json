@@ -67,6 +67,14 @@
     "flat": {
       "file": "flatShader",
       "hasGeomShader": false
+    },
+    "skybox": {
+      "file": "skybox",
+      "hasGeomShader": false
+    },
+    "cubemap": {
+      "file": "cubemaps",
+      "hasGeomShader": false
     }
   },
 
@@ -79,5 +87,13 @@
     "numWaves": 16,
     "frequencyGrowth": 1.05,
     "amplitudeDamping": 0.8
+  },
+  "skybox": {
+    "right": "skybox_right.jpg",
+    "left": "skybox_left.jpg",
+    "bottom": "skybox_bottom.jpg",
+    "top": "skybox_top.jpg",
+    "back": "skybox_back.jpg",
+    "front": "skybox_front.jpg"
   }
 }

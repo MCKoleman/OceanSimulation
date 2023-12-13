@@ -17,7 +17,7 @@ int main()
     Scene* scene = new Scene(state);
 
     // Load shaders
-    LoadShaders(scene, config->GetConfig("shaders"));
+    LoadShaders(scene, config->GetConfig("shaders"), config);
 
     // Load default scene
     LoadScene(scene, state, config);
@@ -106,7 +106,7 @@ void LoadGUIs(Window* window, State* state, Scene* scene)
 }
 
 // Loads all defined shaders
-void LoadShaders(Scene* scene, Config* shaderConfig)
+void LoadShaders(Scene* scene, Config* shaderConfig, Config* config)
 {
     double loadStartTime = glfwGetTime();
 
@@ -115,6 +115,12 @@ void LoadShaders(Scene* scene, Config* shaderConfig)
     {
         scene->CreateShader(iter->first, iter->second);
     }
+    scene->SetCubemap(new Texture("atmosphere", FileSystem::GetPath("resources/textures"), {
+        config->GetString("skybox.right"), config->GetString("skybox.left"),
+        config->GetString("skybox.top"), config->GetString("skybox.bottom"),
+        config->GetString("skybox.back"), config->GetString("skybox.front")
+        }, "cubemaps"));
+    scene->UseSkybox("skybox");
     scene->UseShader("default");
 
     double loadEndTime = glfwGetTime();

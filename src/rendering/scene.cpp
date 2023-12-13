@@ -31,6 +31,19 @@ void Scene::UseShader(const std::string& name)
 	}
 }
 
+// Activates the cubebox shader 
+void Scene::UseSkybox(const std::string& name)
+{
+	mShader = mShaderList[name];
+	glDepthMask(GL_FALSE);
+	mShader->Use();
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, mCubemap->id);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDepthMask(GL_TRUE);
+
+}
+
 // Creates a shader for the scene with the given name from the source file of the given name
 Shader* Scene::CreateShader(const std::string& name, bool loadGeom)
 {
