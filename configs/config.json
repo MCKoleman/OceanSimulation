@@ -90,11 +90,45 @@
   },
 
   "skybox": {
-    "right": "cloud_skybox_right.png",
-    "left": "cloud_skybox_left.png",
-    "bottom": "cloud_skybox_bottom.png",
-    "top": "cloud_skybox_top.png",
-    "back": "cloud_skybox_back.png",
-    "front": "cloud_skybox_front.png"
+    "default": {
+      "right": "cloud_skybox_right.png",
+      "left": "cloud_skybox_left.png",
+      "bottom": "cloud_skybox_bottom.png",
+      "top": "cloud_skybox_top.png",
+      "back": "cloud_skybox_back.png",
+      "front": "cloud_skybox_front.png"
+    },
+    "gray": {
+      "right": "graycloud_right.jpg",
+      "left": "graycloud_left.jpg",
+      "bottom": "graycloud_down.jpg",
+      "top": "graycloud_up.jpg",
+      "back": "graycloud_back.jpg",
+      "front": "graycloud_front.jpg"
+    },
+    "blue": {
+      "right": "bluecloud_right.jpg",
+      "left": "bluecloud_left.jpg",
+      "bottom": "bluecloud_down.jpg",
+      "top": "bluecloud_up.jpg",
+      "back": "bluecloud_back.jpg",
+      "front": "bluecloud_front.jpg"
+    },
+    "brown": {
+      "right": "browncloud_right.jpg",
+      "left": "browncloud_left.jpg",
+      "bottom": "browncloud_down.jpg",
+      "top": "browncloud_up.jpg",
+      "back": "browncloud_back.jpg",
+      "front": "browncloud_front.jpg"
+    },
+    "yellow": {
+      "right": "yellowcloud_right.jpg",
+      "left": "yellowcloud_left.jpg",
+      "bottom": "yellowcloud_down.jpg",
+      "top": "yellowcloud_up.jpg",
+      "back": "yellowcloud_back.jpg",
+      "front": "yellowcloud_front.jpg"
+    }
   }
 }

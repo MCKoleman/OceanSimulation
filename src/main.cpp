@@ -133,10 +133,10 @@ void LoadScene(Scene* scene, State* state, Config* config)
     scene->SetWave(new Wave(config->GetConfig("wave")));
 
     scene->SetSkybox(new Cubemap(new Texture("texture_atmosphere", FileSystem::GetPath("resources/textures"), {
-        config->GetString("skybox.right"), config->GetString("skybox.left"),
-        config->GetString("skybox.top"), config->GetString("skybox.bottom"),
-        config->GetString("skybox.front"), config->GetString("skybox.back")
-    }, "skybox")));
+        config->GetString("skybox.blue.right"), config->GetString("skybox.blue.left"),
+        config->GetString("skybox.blue.top"), config->GetString("skybox.blue.bottom"),
+        config->GetString("skybox.blue.front"), config->GetString("skybox.blue.back")
+    }, "defaultSkybox")));
 }
 
 // Handles calculating the number of frames per second in state
