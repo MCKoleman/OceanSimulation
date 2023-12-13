@@ -49,6 +49,13 @@ void LoadGUIs(Window* window, State* state, Scene* scene);
 void LoadShaders(Scene* scene, Config* shaderConfig, Config* config);
 
 /// <summary>
+/// Loads all requested skybox textures
+/// </summary>
+/// <param name="scene">Scene to load textures to</param>
+/// <param name="skyboxConfig">Config to load textures from</param>
+void LoadTextures(Scene* scene, Config* skyboxConfig);
+
+/// <summary>
 /// Calculates the frames per second
 /// </summary>
 /// <param name="state">Global state</param>

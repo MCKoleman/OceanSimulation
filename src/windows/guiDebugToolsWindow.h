@@ -45,6 +45,27 @@ public:
 				}
 			}
 
+			// Skyboxes
+			ImGui::Separator();
+			ImGui::Text("Skybox");
+			std::unordered_map<std::string, Texture*> textureList = mScene->GetSkyboxTextureList();
+			std::map<std::string, Texture*> sortedTextures;
+			for (auto iter = textureList.begin(); iter != textureList.end(); ++iter)
+				sortedTextures.emplace(iter->first, iter->second);
+			std::string curTexture = mScene->GetSkybox()->GetTexture()->name;
+			if (ImGui::BeginListBox("Texture"))
+			{
+				for (auto iter = sortedTextures.begin(); iter != sortedTextures.end(); ++iter)
+					GUIWindowUtils::Selectable(iter->first, curTexture, iter->first);
+				ImGui::EndListBox();
+
+				// Only change the texture if it actually changed
+				if (mScene->GetSkybox()->GetTexture()->name != curTexture)
+				{
+					mScene->GetSkybox()->SetTexture(mScene->GetSkyboxTexture(curTexture));
+				}
+			}
+
 			ImGui::Separator();
 			PPlane* waterPlane = mScene->GetWaterPlane();
 			ImGui::Text("Water");

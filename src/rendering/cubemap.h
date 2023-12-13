@@ -11,6 +11,17 @@ protected:
 	Texture* mTexture = nullptr;
 
 public:
+    Texture* GetTexture()
+    {
+        return mTexture;
+    }
+
+    void SetTexture(Texture* newTexture)
+    {
+        if (newTexture != nullptr)
+            mTexture = newTexture;
+    }
+
 	void Draw()
 	{
         glDepthMask(GL_FALSE);

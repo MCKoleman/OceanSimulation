@@ -18,6 +18,9 @@ int main()
 
     // Load shaders
     LoadShaders(scene, config->GetConfig("shaders"), config);
+    
+    // Load skyboxes
+    LoadTextures(scene, config->GetConfig("skybox"));
 
     // Load default scene
     LoadScene(scene, state, config);
@@ -122,6 +125,21 @@ void LoadShaders(Scene* scene, Config* shaderConfig, Config* config)
     std::cout << "Shaders loaded in " << loadTime << " seconds." << std::endl;
 }
 
+// Loads all requested skybox textures
+void LoadTextures(Scene* scene, Config* skyboxConfig)
+{
+    std::unordered_map<std::string, Config*> skyboxes = skyboxConfig->GetConfigs();
+    for (auto iter = skyboxes.begin(); iter != skyboxes.end(); ++iter)
+    {
+        scene->AddSkyboxTexture(new Texture("texture_skybox", FileSystem::GetPath(TEXTURE_DIR), {
+            iter->second->GetString("right"), iter->second->GetString("left"),
+            iter->second->GetString("top"), iter->second->GetString("bottom"),
+            iter->second->GetString("front"), iter->second->GetString("back")
+        }, iter->first));
+    }
+    scene->SetSkybox(new Cubemap(scene->GetSkyboxTexture("default")));
+}
+
 // Loads the scene
 void LoadScene(Scene* scene, State* state, Config* config)
 {
@@ -131,12 +149,6 @@ void LoadScene(Scene* scene, State* state, Config* config)
     scene->SetWaterPlane(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
     scene->SetMaterial(new Material(config->GetVec("material.kd"), config->GetVec("material.ka"), config->GetVec("material.ks"), config->GetFloat("material.ns")));
     scene->SetWave(new Wave(config->GetConfig("wave")));
-
-    scene->SetSkybox(new Cubemap(new Texture("texture_atmosphere", FileSystem::GetPath("resources/textures"), {
-        config->GetString("skybox.blue.right"), config->GetString("skybox.blue.left"),
-        config->GetString("skybox.blue.top"), config->GetString("skybox.blue.bottom"),
-        config->GetString("skybox.blue.front"), config->GetString("skybox.blue.back")
-    }, "defaultSkybox")));
 }
 
 // Handles calculating the number of frames per second in state

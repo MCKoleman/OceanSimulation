@@ -27,6 +27,7 @@ protected:
 	State* mState = nullptr;
 	Cubemap* mSkybox = nullptr;
 
+	std::unordered_map<std::string, Texture*> mSkyboxTextureList;
 	std::unordered_map<std::string, Shader*> mShaderList;
 public:
 	// Renders the current scene
@@ -46,6 +47,14 @@ public:
 
 	// Returns the shader with the given name
 	Shader* GetShader(const std::string& name);
+
+	// Returns the skybox texture with the given name
+	Texture* GetSkyboxTexture(const std::string name)
+	{
+		if (mSkyboxTextureList.find(name) != mSkyboxTextureList.end())
+			return mSkyboxTextureList[name];
+		return nullptr;
+	}
 
 	// Returns the scene's camera
 	Camera* GetCamera() const { return mMainCamera; }
@@ -71,6 +80,9 @@ public:
 	// Returns a reference to the shader list
 	const std::unordered_map<std::string, Shader*>& GetShaderList() { return mShaderList; }
 
+	// Returns a reference to the skybox texture list
+	const std::unordered_map<std::string, Texture*>& GetSkyboxTextureList() { return mSkyboxTextureList; }
+
 	// Sets up the scene's camera with the given options
 	void SetCamera(Config* config) { if (mMainCamera != nullptr) { delete mMainCamera; } mMainCamera = new Camera(config); }
 
@@ -91,6 +103,9 @@ public:
 	
 	// Adds a wave to the list
 	void SetWave(Wave* wave) { if (mFirstWave != nullptr) { delete mFirstWave; } mFirstWave = wave; }
+
+	// Adds the given skybox texture
+	void AddSkyboxTexture(Texture* texture) { mSkyboxTextureList.try_emplace(texture->name, texture); }
 
 	// Returns the projection matrix of the scene's camera
 	const glm::mat4& GetProjectionMatrix(float aspect) { return GetCamera()->GetProjection(aspect); }
