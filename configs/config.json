@@ -88,12 +88,13 @@
     "frequencyGrowth": 1.05,
     "amplitudeDamping": 0.8
   },
+
   "skybox": {
-    "right": "skybox_right.jpg",
-    "left": "skybox_left.jpg",
-    "bottom": "skybox_bottom.jpg",
-    "top": "skybox_top.jpg",
-    "back": "skybox_back.jpg",
-    "front": "skybox_front.jpg"
+    "right": "cloud_skybox_right.png",
+    "left": "cloud_skybox_left.png",
+    "bottom": "cloud_skybox_bottom.png",
+    "top": "cloud_skybox_top.png",
+    "back": "cloud_skybox_back.png",
+    "front": "cloud_skybox_front.png"
   }
 }

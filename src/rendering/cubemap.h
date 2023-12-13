@@ -13,14 +13,14 @@ protected:
 public:
 	void Draw()
 	{
-		glDepthFunc(GL_LEQUAL);
+        glDepthMask(GL_FALSE);
 		glBindVertexArray(VAO);
         glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, mTexture->id);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
-        glDepthFunc(GL_LESS);
-	}
+        glDepthMask(GL_TRUE);
+    }
 
 	explicit Cubemap(Texture* texture)
 		: mTexture(texture)
