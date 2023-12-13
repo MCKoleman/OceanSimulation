@@ -45,7 +45,7 @@ Window::Window(int width, int height, const std::string& name, Config* config, S
     stbi_image_free(images[0].pixels);
 
     // TODO: Change to import setting
-    stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(false);
 
     // // glad: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

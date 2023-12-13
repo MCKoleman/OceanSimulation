@@ -115,12 +115,6 @@ void LoadShaders(Scene* scene, Config* shaderConfig, Config* config)
     {
         scene->CreateShader(iter->first, iter->second);
     }
-    scene->SetCubemap(new Texture("atmosphere", FileSystem::GetPath("resources/textures"), {
-        config->GetString("skybox.right"), config->GetString("skybox.left"),
-        config->GetString("skybox.top"), config->GetString("skybox.bottom"),
-        config->GetString("skybox.back"), config->GetString("skybox.front")
-        }, "cubemaps"));
-    scene->UseSkybox("skybox");
     scene->UseShader("default");
 
     double loadEndTime = glfwGetTime();
@@ -137,6 +131,12 @@ void LoadScene(Scene* scene, State* state, Config* config)
     scene->SetWaterPlane(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
     scene->SetMaterial(new Material(config->GetVec("material.kd"), config->GetVec("material.ka"), config->GetVec("material.ks"), config->GetFloat("material.ns")));
     scene->SetWave(new Wave(config->GetConfig("wave")));
+
+    scene->SetSkybox(new Cubemap(new Texture("texture_atmosphere", FileSystem::GetPath("resources/textures"), {
+        config->GetString("skybox.right"), config->GetString("skybox.left"),
+        config->GetString("skybox.top"), config->GetString("skybox.bottom"),
+        config->GetString("skybox.front"), config->GetString("skybox.back")
+    }, "skybox")));
 }
 
 // Handles calculating the number of frames per second in state

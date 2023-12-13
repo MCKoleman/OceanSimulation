@@ -18,6 +18,20 @@ void Scene::Draw(Window* window, Shader* shader)
 	
 	if (mWaterPlane != nullptr)
 		mWaterPlane->Draw(shader, mState, viewProj, false);
+
+	// Draw skybox last so it only draws over parts of the screen that are not covered
+	if (mSkybox != nullptr)
+	{
+		Shader* skyboxShader = GetShader("skybox");
+		if (skyboxShader != nullptr)
+		{
+			glm::mat4 skyboxViewProj = GetProjectionMatrix(window->GetAspect()) * glm::mat4(glm::mat3(GetViewMatrix()));
+			skyboxShader->Use();
+			skyboxShader->SetMat4("viewProj", skyboxViewProj);
+			skyboxShader->SetInt("skybox", 0);
+			mSkybox->Draw();
+		}
+	}
 }
 
 // Activates the shader with the given name for the scene
@@ -29,19 +43,6 @@ void Scene::UseShader(const std::string& name)
 		mShader = mShaderList[name];
 		mShader->Use();
 	}
-}
-
-// Activates the cubebox shader 
-void Scene::UseSkybox(const std::string& name)
-{
-	mShader = mShaderList[name];
-	glDepthMask(GL_FALSE);
-	mShader->Use();
-	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, mCubemap->id);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glDepthMask(GL_TRUE);
-
 }
 
 // Creates a shader for the scene with the given name from the source file of the given name
