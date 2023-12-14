@@ -149,6 +149,15 @@ void LoadScene(Scene* scene, State* state, Config* config)
     scene->SetWaterPlane(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
     scene->SetMaterial(new Material(config->GetVec("material.kd"), config->GetVec("material.ka"), config->GetVec("material.ks"), config->GetFloat("material.ns")));
     scene->SetWave(new Wave(config->GetConfig("wave")));
+
+    scene->SetOcean(new Ocean(
+        scene->GetShader("waveFFT"), 
+        config->GetInt("water.divisions"), 
+        config->GetFloat("water.spectrumHeight"), 
+        glm::vec2(config->GetFloat("water.windX"), config->GetFloat("water.windZ")),
+        config->GetFloat("water.size"), 
+        false
+    ));
 }
 
 // Handles calculating the number of frames per second in state

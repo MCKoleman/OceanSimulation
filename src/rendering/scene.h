@@ -11,6 +11,7 @@
 #include "rendering/material.h"
 #include "rendering/wave.h"
 #include "rendering/cubemap.h"
+#include "rendering/ocean.h"
 #include <unordered_map>
 
 class Scene
@@ -26,6 +27,7 @@ protected:
 	Wave* mFirstWave = nullptr;
 	State* mState = nullptr;
 	Cubemap* mSkybox = nullptr;
+	Ocean* mOcean = nullptr;
 
 	std::unordered_map<std::string, Texture*> mSkyboxTextureList;
 	std::unordered_map<std::string, Shader*> mShaderList;
@@ -62,8 +64,11 @@ public:
 	// Returns the scene's light
 	Light* GetLight() const { return mGlobalLight; }
 
-	// Returns scene's skybox
+	// Returns the scene's skybox
 	Cubemap* GetSkybox() const { return mSkybox; }
+
+	// Returns the scene's ocean
+	Ocean* GetOcean() const { return mOcean; }
 
 	// Returns the scene's plane
 	PPlane* GetWaterPlane() const { return mWaterPlane; }
@@ -103,6 +108,9 @@ public:
 	
 	// Adds a wave to the list
 	void SetWave(Wave* wave) { if (mFirstWave != nullptr) { delete mFirstWave; } mFirstWave = wave; }
+
+	// Sets the ocean of the scene
+	void SetOcean(Ocean* ocean) { if (mOcean != nullptr) { delete mOcean; } mOcean = ocean; }
 
 	// Adds the given skybox texture
 	void AddSkyboxTexture(Texture* texture) { mSkyboxTextureList.try_emplace(texture->name, texture); }

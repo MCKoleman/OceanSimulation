@@ -5,6 +5,8 @@
 
 enum class LightType { POINT = 0, DIR = 1, SPOT = 2 };
 
+class State;
+
 class Light
 {
 protected:

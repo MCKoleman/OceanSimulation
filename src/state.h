@@ -9,6 +9,8 @@ private:
 public:
 	bool drawGUI = true;
 	bool waveInterference = true;
+	bool useSumOfSines = true;
+	bool useFFT = false;
 
 	std::string fps = "";
 	std::string frameTime = "";

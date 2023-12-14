@@ -30,8 +30,11 @@ void Scene::Draw(Window* window, Shader* shader)
 	mMaterial->UpdateShader(shader);
 	mFirstWave->UpdateShader(shader);
 	
-	if (mWaterPlane != nullptr)
+	if (mWaterPlane != nullptr && mState->useSumOfSines)
 		mWaterPlane->Draw(shader, mState, viewProj, false);
+
+	if (mOcean != nullptr && !mState->useSumOfSines)
+		mOcean->Draw((float)glfwGetTime(), GetViewMatrix(), GetProjectionMatrix(window->GetAspect()), glm::mat4(1.0f), mGlobalLight, mMaterial, mState->useFFT);
 }
 
 // Activates the shader with the given name for the scene

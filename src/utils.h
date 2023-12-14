@@ -1,11 +1,31 @@
 #pragma once
 #include "glIncludes.h"
+#include "complex.h"
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <vector>
+
+// Returns a uniformly distributed random variable
+static float UniformRandomVariable()
+{
+    return (float)rand() / RAND_MAX;
+}
+
+// Returns a gaussian random complex variable 
+static Complex GaussianRandomVariable()
+{
+    float x1, x2, w;
+    do {
+        x1 = 2.0f * UniformRandomVariable() - 1.0f;
+        x2 = 2.0f * UniformRandomVariable() - 1.0f;
+        w = x1 * x1 + x2 * x2;
+    } while (w >= 1.0f);
+    w = sqrt((-2.0f * log(w)) / w);
+    return Complex(x1 * w, x2 * w);
+}
 
 // Returns whether the given file exists
 static const bool FileExists(const std::string& name) {

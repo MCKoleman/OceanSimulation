@@ -1,14 +1,17 @@
 {
   "water": {
     "size": 50.0,
-    "divisions": 500
+    "divisions": 5,
+    "windX": 1.0,
+    "windZ": 0.0,
+    "spectrumHeight": 1.0
   },
 
   "material": {
-    "kd": [ 0.1, 0.1, 0.8 ],
-    "ka": [ 0.1, 0.1, 0.1 ],
+    "kd": [ 0.3, 0.5, 0.8 ],
+    "ka": [ 0.0, 0.4, 0.8 ],
     "ks": [ 1.0, 1.0, 1.0 ],
-    "ns": 32.0
+    "ns": 128.0
   },
 
   "light": {
@@ -58,6 +61,10 @@
   "shaders": {
     "default": {
       "file": "waveBasicShader",
+      "hasGeomShader": false
+    },
+    "waveFFT": {
+      "file": "waveFFTShader",
       "hasGeomShader": false
     },
     "blinn": {

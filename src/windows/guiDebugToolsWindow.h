@@ -67,15 +67,40 @@ public:
 			}
 
 			ImGui::Separator();
-			PPlane* waterPlane = mScene->GetWaterPlane();
 			ImGui::Text("Water");
-			int divs = GUIWindowUtils::InputInt("Divisions", waterPlane->GetCurDivisions(), 1, 1000);
-			bool divEdited = ImGui::IsItemDeactivatedAfterEdit();
-			float size = GUIWindowUtils::InputFloat("Size", waterPlane->GetCurSize(), 0.1f, 10000.0f);
-			bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
-			if (divEdited || sizeEdited)
-				waterPlane->GenPlane(size, divs);
-			mState->waveInterference = GUIWindowUtils::Checkbox("Interference", mState->waveInterference);
+			if (mState->useSumOfSines)
+			{
+				PPlane* waterPlane = mScene->GetWaterPlane();
+				int divs = GUIWindowUtils::InputInt("Divisions", waterPlane->GetCurDivisions(), 1, 1000);
+				bool divEdited = ImGui::IsItemDeactivatedAfterEdit();
+				float size = GUIWindowUtils::InputFloat("Size", waterPlane->GetCurSize(), 0.1f, 10000.0f);
+				bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
+				if (divEdited || sizeEdited)
+					waterPlane->GenPlane(size, divs);
+
+				mState->waveInterference = GUIWindowUtils::Checkbox("Interference", mState->waveInterference);
+				mState->useSumOfSines = GUIWindowUtils::Checkbox("Sum of Sines", mState->useSumOfSines);
+			}
+			else
+			{
+				Ocean* ocean = mScene->GetOcean();
+				int divs = GUIWindowUtils::InputInt("Divisions", ocean->GetDimension(), 1, 1000);
+				bool divEdited = ImGui::IsItemDeactivatedAfterEdit();
+
+				float size = GUIWindowUtils::InputFloat("Size", ocean->GetLength(), 0.1f, 10000.0f);
+				bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
+
+				bool geom = GUIWindowUtils::Checkbox("Geometry", ocean->IsGeometry());
+
+				if (divEdited || sizeEdited || geom != ocean->IsGeometry())
+					ocean->Generate(divs, size, geom);
+
+				ocean->SetSpectrumHeight(GUIWindowUtils::InputFloat("Spectrum Height", ocean->GetSpectrumHeight(), 0.1f, 10.0f));
+				ocean->SetWind(GUIWindowUtils::InputVec2("Wind", ocean->GetWind(), -1.0f, 1.0f));
+
+				mState->useSumOfSines = GUIWindowUtils::Checkbox("Sum of Sines", mState->useSumOfSines);
+				mState->useFFT = GUIWindowUtils::Checkbox("Use FFT", mState->useFFT);
+			}
 		}
 		ImGui::End();
 	}
