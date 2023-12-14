@@ -24,7 +24,9 @@ To understand the equations we arrived to in creating this simulation, we used t
     - His [repository](https://github.com/GarrettGunnell/Water)
 
 # Citations
-We did not create our own skybox; we downloaded the hdr file from [this website](https://polyhaven.com/a/kloppenheim_06_puresky)
+We did not create our own skyboxes. You can find the skyboxes we used here:
+- https://learnopengl.com/Advanced-OpenGL/Cubemaps
+- https://opengameart.org/content/cloudy-skyboxes
 
 # License
 MIT License
