@@ -20,16 +20,21 @@ protected:
 	{
 		mVAO = mVBO = mEBO = 0;
 		glGenVertexArrays(1, &mVAO);
-		glBindVertexArray(mVAO);
-
 		glGenBuffers(1, &mVBO);
+		glGenBuffers(1, &mEBO);
+		BindBuffers();
+	}
+
+	// Binds the buffers
+	void BindBuffers()
+	{
 		glBindBuffer(GL_ARRAY_BUFFER, mVBO);
 		glBufferData(GL_ARRAY_BUFFER, (GLuint)mVertices.size() * sizeof(*mVertices.data()), mVertices.data(), GL_STATIC_DRAW);
 
+		glBindVertexArray(mVAO);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		glGenBuffers(1, &mEBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLuint)mIndices.size() * sizeof(*mIndices.data()), mIndices.data(), GL_STATIC_DRAW);
 

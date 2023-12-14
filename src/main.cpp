@@ -17,10 +17,13 @@ int main()
     Scene* scene = new Scene(state);
 
     // Load shaders
-    LoadShaders(scene, config->GetConfig("shaders"));
+    LoadShaders(scene, config->GetConfig("shaders"), config);
+    
+    // Load skyboxes
+    LoadTextures(scene, config->GetConfig("skybox"));
 
     // Load default scene
-    LoadScene(scene, state, config->GetConfig("camera"), config->GetConfig("light"));
+    LoadScene(scene, state, config);
 
     // Add GUIs
     LoadGUIs(window, state, scene);
@@ -60,8 +63,6 @@ int main()
         if (state->drawGUI)
         {
             window->DrawGUI();
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         }
 
         // Swap buffers at the end of the loop
@@ -94,16 +95,21 @@ void OpenGLDraw(Window* window, State* state, Scene* scene)
 
     // Render the scene
     scene->Draw(window, scene->GetShader(scene->GetCurShader()));
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 // Opens all defined GUIs
 void LoadGUIs(Window* window, State* state, Scene* scene)
 {
     window->AddGUI(new GUIDebugToolsWindow(state, scene, true));
+    window->AddGUI(new GUILightViewer(state, scene, true));
+    window->AddGUI(new GUICameraViewer(state, scene, true));
+    window->AddGUI(new GUIWaveViewer(state, scene, true));
+    window->AddGUI(new GUIMaterialViewer(state, scene, true));
 }
 
 // Loads all defined shaders
-void LoadShaders(Scene* scene, Config* shaderConfig)
+void LoadShaders(Scene* scene, Config* shaderConfig, Config* config)
 {
     double loadStartTime = glfwGetTime();
 
@@ -119,12 +125,39 @@ void LoadShaders(Scene* scene, Config* shaderConfig)
     std::cout << "Shaders loaded in " << loadTime << " seconds." << std::endl;
 }
 
+// Loads all requested skybox textures
+void LoadTextures(Scene* scene, Config* skyboxConfig)
+{
+    std::unordered_map<std::string, Config*> skyboxes = skyboxConfig->GetConfigs();
+    for (auto iter = skyboxes.begin(); iter != skyboxes.end(); ++iter)
+    {
+        scene->AddSkyboxTexture(new Texture("texture_skybox", FileSystem::GetPath(TEXTURE_DIR), {
+            iter->second->GetString("right"), iter->second->GetString("left"),
+            iter->second->GetString("top"), iter->second->GetString("bottom"),
+            iter->second->GetString("front"), iter->second->GetString("back")
+        }, iter->first));
+    }
+    scene->SetSkybox(new Cubemap(scene->GetSkyboxTexture("default")));
+}
+
 // Loads the scene
-void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig)
+void LoadScene(Scene* scene, State* state, Config* config)
 {
     // Add light and camera
-    scene->SetCamera(cameraConfig);
-    scene->SetLight(new Light(lightConfig));
+    scene->SetCamera(config->GetConfig("camera"));
+    scene->SetLight(new Light(config->GetConfig("light")));
+    scene->SetWaterPlane(new PPlane("Water", config->GetFloat("water.size"), config->GetInt("water.divisions")));
+    scene->SetMaterial(new Material(config->GetVec("material.kd"), config->GetVec("material.ka"), config->GetVec("material.ks"), config->GetFloat("material.ns")));
+    scene->SetWave(new Wave(config->GetConfig("wave")));
+
+    scene->SetOcean(new Ocean(
+        scene->GetShader("waveFFT"), 
+        config->GetInt("water.fftDims"), 
+        config->GetFloat("water.spectrumHeight"), 
+        glm::vec2(config->GetFloat("water.windX"), config->GetFloat("water.windZ")),
+        config->GetFloat("water.fftLen"), 
+        false
+    ));
 }
 
 // Handles calculating the number of frames per second in state

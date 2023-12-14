@@ -15,6 +15,7 @@
 #define E_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_E) == GLFW_PRESS)
 #define R_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_R) == GLFW_PRESS)
 #define T_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_T) == GLFW_PRESS)
+#define B_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_B) == GLFW_PRESS)
 #define S_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_S) == GLFW_PRESS)
 #define F_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_F) == GLFW_PRESS)
 #define D_PRESS (glfwGetKey(glfwWindow, GLFW_KEY_D) == GLFW_PRESS)
@@ -41,6 +42,7 @@ struct InputLocks
 	bool lockLeftMouse = false;
 	bool lockRightMouse = false;
 	bool lockSpace = false;
+	bool lockB = false;
 
 	bool rerender = false;
 

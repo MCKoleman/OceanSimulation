@@ -1,10 +1,9 @@
 #pragma once
 #include "utils.h"
+#include "state.h"
 #include "windows/iGUIWindow.h"
 #include "windows/guiWindowUtils.h"
 #include "rendering/scene.h"
-#include "rendering/camera.h"
-#include "state.h"
 #include <map>
 
 /// <summary>
@@ -46,19 +45,62 @@ public:
 				}
 			}
 
-			// Camera settings
+			// Skyboxes
 			ImGui::Separator();
-			ImGui::Text("Camera Settings");
-			Camera* cam = mScene->GetCamera();
-			cam->SetPos(GUIWindowUtils::InputVec3("Position", cam->GetPos()));
-			cam->LookAt(GUIWindowUtils::InputVec3("Target", cam->GetTarget()));
-			cam->SetPivot(GUIWindowUtils::InputVec3("Pivot", cam->GetPivot()));
-			cam->SetOrthSize(GUIWindowUtils::InputFloat("Size", cam->GetOrthSize()));
-			cam->SetFOV(GUIWindowUtils::InputFloat("FOV", cam->GetFOV()));
-			cam->SetNearClip(GUIWindowUtils::InputFloat("Near Clip", cam->GetNearClip()));
-			cam->SetFarClip(GUIWindowUtils::InputFloat("Far Clip", cam->GetFarClip()));
-			cam->SetPerspective(GUIWindowUtils::Checkbox("Perspective", cam->IsPerspective()));
-			cam->SetWireframe(GUIWindowUtils::Checkbox("Wireframe", cam->IsWireframe()));
+			ImGui::Text("Skybox");
+			std::unordered_map<std::string, Texture*> textureList = mScene->GetSkyboxTextureList();
+			std::map<std::string, Texture*> sortedTextures;
+			for (auto iter = textureList.begin(); iter != textureList.end(); ++iter)
+				sortedTextures.emplace(iter->first, iter->second);
+			std::string curTexture = mScene->GetSkybox()->GetTexture()->name;
+			if (ImGui::BeginListBox("Texture"))
+			{
+				for (auto iter = sortedTextures.begin(); iter != sortedTextures.end(); ++iter)
+					GUIWindowUtils::Selectable(iter->first, curTexture, iter->first);
+				ImGui::EndListBox();
+
+				// Only change the texture if it actually changed
+				if (mScene->GetSkybox()->GetTexture()->name != curTexture)
+				{
+					mScene->GetSkybox()->SetTexture(mScene->GetSkyboxTexture(curTexture));
+				}
+			}
+
+			ImGui::Separator();
+			ImGui::Text("Water");
+			if (mState->useSumOfSines)
+			{
+				PPlane* waterPlane = mScene->GetWaterPlane();
+				int divs = GUIWindowUtils::InputInt("Divisions", waterPlane->GetCurDivisions(), 1, 1000);
+				bool divEdited = ImGui::IsItemDeactivatedAfterEdit();
+				float size = GUIWindowUtils::InputFloat("Size", waterPlane->GetCurSize(), 0.1f, 10000.0f);
+				bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
+				if (divEdited || sizeEdited)
+					waterPlane->GenPlane(size, divs);
+
+				mState->waveInterference = GUIWindowUtils::Checkbox("Interference", mState->waveInterference);
+				mState->useSumOfSines = GUIWindowUtils::Checkbox("Sum of Sines", mState->useSumOfSines);
+			}
+			else
+			{
+				Ocean* ocean = mScene->GetOcean();
+				int divs = GUIWindowUtils::InputInt("Divisions", ocean->GetDimension(), 1, 1000);
+				bool divEdited = ImGui::IsItemDeactivatedAfterEdit();
+
+				float size = GUIWindowUtils::InputFloat("Size", ocean->GetLength(), 0.1f, 10000.0f);
+				bool sizeEdited = ImGui::IsItemDeactivatedAfterEdit();
+
+				bool geom = GUIWindowUtils::Checkbox("Geometry", ocean->IsGeometry());
+
+				if (divEdited || sizeEdited || geom != ocean->IsGeometry())
+					ocean->Generate(divs, size, geom);
+
+				ocean->SetSpectrumHeight(GUIWindowUtils::InputFloat("Spectrum Height", ocean->GetSpectrumHeight(), 0.1f, 10.0f));
+				ocean->SetWind(GUIWindowUtils::InputVec2("Wind", ocean->GetWind(), -1.0f, 1.0f));
+
+				mState->useSumOfSines = GUIWindowUtils::Checkbox("Sum of Sines", mState->useSumOfSines);
+				mState->useFFT = GUIWindowUtils::Checkbox("Use FFT", mState->useFFT);
+			}
 		}
 		ImGui::End();
 	}

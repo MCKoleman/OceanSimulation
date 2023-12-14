@@ -1,21 +1,38 @@
 {
+  "water": {
+    "size": 50.0,
+    "divisions": 500,
+    "fftLen": 5,
+    "fftDims": 5,
+    "windX": 1.0,
+    "windZ": 0.0,
+    "spectrumHeight": 1.0
+  },
+
+  "material": {
+    "kd": [ 0.3, 0.5, 0.8 ],
+    "ka": [ 0.0, 0.4, 0.8 ],
+    "ks": [ 1.0, 1.0, 1.0 ],
+    "ns": 128.0
+  },
+
   "light": {
-    "pos": [ -4.0, 5.0, 4.0 ],
-    "dir": [ -1.0, -1.0, -1.0 ],
+    "pos": [ 0.0, 15.0, 0.0 ],
+    "dir": [ 0.7, -0.5, -0.5 ],
     "color": [ 1.0, 1.0, 1.0 ],
-    "diffuse":  1.0,
+    "diffuse": 1.0,
     "ambient": 0.1,
     "specular": 1.0,
     "gamma": false,
-    "type": 0,
+    "type": 1,
     "range": 30.0,
     "spotInnerRadius": 25.0,
     "spotOuterRadius": 35.0
   },
 
   "camera": {
-    "pos": [ 5.0, 5.0, 7.0 ],
-    "dir": [ -5.0, -7.0, -7.0 ],
+    "pos": [ 5.0, 10.0, 7.0 ],
+    "dir": [ -0.7, -0.4, 0.5 ],
     "up": [ 0.0, 1.0, 0.0 ],
     "fov": 45.0,
     "size": 5.0,
@@ -45,12 +62,82 @@
 
   "shaders": {
     "default": {
+      "file": "waveBasicShader",
+      "hasGeomShader": false
+    },
+    "waveFFT": {
+      "file": "waveFFTShader",
+      "hasGeomShader": false
+    },
+    "blinn": {
       "file": "blinnShader",
       "hasGeomShader": false
     },
     "flat": {
       "file": "flatShader",
       "hasGeomShader": false
+    },
+    "skybox": {
+      "file": "skybox",
+      "hasGeomShader": false
+    },
+    "cubemap": {
+      "file": "cubemaps",
+      "hasGeomShader": false
+    }
+  },
+
+  "wave": {
+    "wavelength": 1.5,
+    "amplitude": 0.2,
+    "speed": 1.2,
+    "direction": 0.0,
+    "directionRange": 180.0,
+    "numWaves": 16,
+    "frequencyGrowth": 1.05,
+    "amplitudeDamping": 0.8
+  },
+
+  "skybox": {
+    "default": {
+      "right": "cloud_skybox_right.png",
+      "left": "cloud_skybox_left.png",
+      "bottom": "cloud_skybox_bottom.png",
+      "top": "cloud_skybox_top.png",
+      "back": "cloud_skybox_back.png",
+      "front": "cloud_skybox_front.png"
+    },
+    "gray": {
+      "right": "graycloud_right.jpg",
+      "left": "graycloud_left.jpg",
+      "bottom": "graycloud_down.jpg",
+      "top": "graycloud_up.jpg",
+      "back": "graycloud_back.jpg",
+      "front": "graycloud_front.jpg"
+    },
+    "blue": {
+      "right": "bluecloud_right.jpg",
+      "left": "bluecloud_left.jpg",
+      "bottom": "bluecloud_down.jpg",
+      "top": "bluecloud_up.jpg",
+      "back": "bluecloud_back.jpg",
+      "front": "bluecloud_front.jpg"
+    },
+    "brown": {
+      "right": "browncloud_right.jpg",
+      "left": "browncloud_left.jpg",
+      "bottom": "browncloud_down.jpg",
+      "top": "browncloud_up.jpg",
+      "back": "browncloud_back.jpg",
+      "front": "browncloud_front.jpg"
+    },
+    "yellow": {
+      "right": "yellowcloud_right.jpg",
+      "left": "yellowcloud_left.jpg",
+      "bottom": "yellowcloud_down.jpg",
+      "top": "yellowcloud_up.jpg",
+      "back": "yellowcloud_back.jpg",
+      "front": "yellowcloud_front.jpg"
     }
   }
 }

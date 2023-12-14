@@ -62,10 +62,22 @@ public:
 		return value;
 	}
 
+	static std::string InputText(const std::string& label, std::string value, int maxLen)
+	{
+		ImGui::InputText(label.c_str(), &value);
+		return value.substr(0, maxLen);
+	}
+
 	static int InputInt(const std::string& label, int value)
 	{
 		ImGui::InputInt(label.c_str(), &value);
 		return value;
+	}
+
+	static int InputInt(const std::string& label, int value, int min, int max)
+	{
+		ImGui::InputInt(label.c_str(), &value);
+		return Clamp(value, min, max);
 	}
 
 	static float InputFloat(const std::string& label, float value)
@@ -74,11 +86,38 @@ public:
 		return value;
 	}
 
+	static float InputFloat(const std::string& label, float value, float min, float max)
+	{
+		ImGui::InputFloat(label.c_str(), &value);
+		return Clamp(value, min, max);
+	}
+
+	static glm::vec2 InputVec2(const std::string& label, glm::vec2 value)
+	{
+		float valueInput[2] = { value.x, value.y };
+		ImGui::InputFloat2(label.c_str(), valueInput);
+		return Vec2FromFloats(valueInput);
+	}
+
+	static glm::vec2 InputVec2(const std::string& label, glm::vec2 value, float min, float max)
+	{
+		float valueInput[2] = { value.x, value.y };
+		ImGui::InputFloat2(label.c_str(), valueInput);
+		return Clamp(Vec2FromFloats(valueInput), min, max);
+	}
+
 	static glm::vec3 InputVec3(const std::string& label, glm::vec3 value)
 	{
 		float valueInput[3] = { value.x, value.y, value.z };
 		ImGui::InputFloat3(label.c_str(), valueInput);
 		return Vec3FromFloats(valueInput);
+	}
+
+	static glm::vec3 InputVec3(const std::string& label, glm::vec3 value, float min, float max)
+	{
+		float valueInput[3] = { value.x, value.y, value.z };
+		ImGui::InputFloat3(label.c_str(), valueInput);
+		return Clamp(Vec3FromFloats(valueInput), min, max);
 	}
 
 	static glm::mat3 InputMat3(const std::string& label, const glm::mat3& value)

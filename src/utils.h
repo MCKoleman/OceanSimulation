@@ -1,11 +1,31 @@
 #pragma once
 #include "glIncludes.h"
+#include "complex.h"
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
 #include <vector>
+
+// Returns a uniformly distributed random variable
+static float UniformRandomVariable()
+{
+    return (float)rand() / RAND_MAX;
+}
+
+// Returns a gaussian random complex variable 
+static Complex GaussianRandomVariable()
+{
+    float x1, x2, w;
+    do {
+        x1 = 2.0f * UniformRandomVariable() - 1.0f;
+        x2 = 2.0f * UniformRandomVariable() - 1.0f;
+        w = x1 * x1 + x2 * x2;
+    } while (w >= 1.0f);
+    w = sqrt((-2.0f * log(w)) / w);
+    return Complex(x1 * w, x2 * w);
+}
 
 // Returns whether the given file exists
 static const bool FileExists(const std::string& name) {
@@ -70,6 +90,59 @@ static const int Clamp(int value, int min, int max)
 }
 
 /// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const float Clamp(float value, float min, float max)
+{
+    if (value > max)
+        return max;
+    else if (value < min)
+        return min;
+    else
+        return value;
+}
+
+/// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const glm::vec2 Clamp(const glm::vec2& value, float min, float max)
+{
+    return glm::vec2(Clamp(value.x, min, max), Clamp(value.y, min, max));
+}
+
+/// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const glm::vec3 Clamp(const glm::vec3& value, float min, float max)
+{
+    return glm::vec3(Clamp(value.x, min, max), Clamp(value.y, min, max), Clamp(value.z, min, max));
+}
+
+/// <summary>
+/// Clamps the given value to be within min and max
+/// </summary>
+/// <param name="value">Value to clamp</param>
+/// <param name="min">Minimum</param>
+/// <param name="max">Maximum value</param>
+/// <returns>Value in range [min, max]</returns>
+static const glm::vec4 Clamp(const glm::vec4& value, float min, float max)
+{
+    return glm::vec4(Clamp(value.x, min, max), Clamp(value.y, min, max), Clamp(value.z, min, max), Clamp(value.w, min, max));
+}
+
+/// <summary>
 /// Converts the given decimal value to hexadecimal.
 /// Borrowed from: 
 /// https://www.geeksforgeeks.org/convert-the-given-rgb-color-code-to-hex-color-code/
@@ -122,6 +195,50 @@ static const std::string DecimalToHex(int value)
 }
 
 /// <summary>
+/// Returns a random number between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random float in [min, max] (default [0, 1])</returns>
+static const float GetRandFloat(float min = 0.0f, float max = 1.0f)
+{
+    return (rand() * (max - min)) / RAND_MAX + min;
+}
+
+/// <summary>
+/// Returns a vec2 of random numbers between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random vec2 in [min, max] (default [0, 1])</returns>
+static const glm::vec2 GetRandVec2(float min = 0.0f, float max = 1.0f)
+{
+    return glm::vec2(GetRandFloat(min, max), GetRandFloat(min, max));
+}
+
+/// <summary>
+/// Returns a vec3 of random numbers between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random vec3 in [min, max] (default [0, 1])</returns>
+static const glm::vec3 GetRandVec3(float min = 0.0f, float max = 1.0f)
+{
+    return glm::vec3(GetRandFloat(min, max), GetRandFloat(min, max), GetRandFloat(min, max));
+}
+
+/// <summary>
+/// Returns a vec4 of random numbers between min and max
+/// </summary>
+/// <param name="min">Minimum value (default 0)</param>
+/// <param name="max">Maximum value (default 1)</param>
+/// <returns>Random vec4 in [min, max] (default [0, 1])</returns>
+static const glm::vec4 GetRandVec4(float min = 0.0f, float max = 1.0f)
+{
+    return glm::vec4(GetRandFloat(min, max), GetRandFloat(min, max), GetRandFloat(min, max), GetRandFloat(min, max));
+}
+
+/// <summary>
 /// Converts the given vec3 to its hexadecimal equivalent
 /// </summary>
 /// <param name="vec">Vec3 to convert</param>
@@ -139,11 +256,28 @@ static const std::string Vec3ToHex(const glm::vec3& vec)
     return hex;
 }
 
+static const glm::vec2 DegreesToDir(float degrees)
+{
+    return glm::normalize(glm::vec2(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))));
+}
+
+static const std::string Vec2ToString(const glm::vec2& vec)
+{
+    std::ostringstream ss;
+    ss << "[" << vec.x << ", " << vec.y << "]";
+    return ss.str();
+}
+
 static const std::string Vec3ToString(const glm::vec3& vec)
 {
     std::ostringstream ss;
     ss << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
     return ss.str();
+}
+
+static const glm::vec2 Vec2FromFloats(const float vec[2])
+{
+    return glm::vec2(vec[0], vec[1]);
 }
 
 static const glm::vec3 Vec3FromFloats(const float vec[3])

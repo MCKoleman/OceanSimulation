@@ -8,9 +8,16 @@
 
 #include "windows/window.h"
 #include "windows/guiDebugToolsWindow.h"
+#include "windows/guiCameraViewer.h"
+#include "windows/guiMaterialViewer.h"
+#include "windows/guiLightViewer.h"
+#include "windows/guiWaveViewer.h"
 
 #include "rendering/shader.h"
+#include "rendering/wave.h"
+#include "rendering/material.h"
 #include "rendering/scene.h"
+#include "rendering/pPlane.h"
 
 constexpr unsigned int SCR_WIDTH = 1280;
 constexpr unsigned int SCR_HEIGHT = 720;
@@ -39,7 +46,14 @@ void LoadGUIs(Window* window, State* state, Scene* scene);
 /// </summary>
 /// <param name="scene">Scene to load shaders to</param>
 /// <param name="shaderConfig">Config to load shaders from</param>
-void LoadShaders(Scene* scene, Config* shaderConfig);
+void LoadShaders(Scene* scene, Config* shaderConfig, Config* config);
+
+/// <summary>
+/// Loads all requested skybox textures
+/// </summary>
+/// <param name="scene">Scene to load textures to</param>
+/// <param name="skyboxConfig">Config to load textures from</param>
+void LoadTextures(Scene* scene, Config* skyboxConfig);
 
 /// <summary>
 /// Calculates the frames per second
@@ -54,6 +68,5 @@ void CalculateFPS(State* state, double& prevSecond, int& numFrames);
 /// </summary>
 /// <param name="scene">Scene to load to</param>
 /// <param name="state">Global state</param>
-/// <param name="cameraConfig">Default camera</param>
-/// <param name="lightConfig">Default light</param>
-void LoadScene(Scene* scene, State* state, Config* cameraConfig, Config* lightConfig);
+/// <param name="config">Configuration for the scene</param>
+void LoadScene(Scene* scene, State* state, Config* config);

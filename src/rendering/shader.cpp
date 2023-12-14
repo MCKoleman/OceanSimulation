@@ -129,6 +129,12 @@ void Shader::Use()
     glUseProgram(ID);
 }
 
+// Returns the given attribute's location
+int Shader::GetAttributeLocation(const std::string& name) const
+{
+    return glGetAttribLocation(ID, name.c_str());
+}
+
 // utility uniform functions
 // ------------------------------------------------------------------------
 void Shader::SetBool(const std::string& name, bool value) const
