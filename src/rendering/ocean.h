@@ -2,6 +2,7 @@
 #include "glIncludes.h"
 #include "utils.h"
 #include "complex.h"
+#include "rendering/fft.h"
 #include "rendering/shader.h"
 #include "rendering/material.h"
 #include "rendering/light.h"
@@ -68,13 +69,13 @@ private:
 	glm::vec2 mWind;
 	float mLength;
 
-	Complex mHTilde;
-	Complex mHTildeSlopeX;
-	Complex mHTildeSlopeZ;
-	Complex mHTildeDX;
-	Complex mHTildeDZ;
+	Complex* mHTilde;
+	Complex* mHTildeSlopeX;
+	Complex* mHTildeSlopeZ;
+	Complex* mHTildeDX;
+	Complex* mHTildeDZ;
 
-	// FFT* mFFT;
+	FFT* mFFT;
 
 	std::vector<OceanVertex> mVertices;
 	std::vector<unsigned int> mIndices;
@@ -94,6 +95,11 @@ private:
 	{
 		glm::vec3 oPos = vert.originalPosition;
 		return glm::vec3(oPos.x + lambda * cvn.displacement.x, cvn.height.real, oPos.z + lambda * cvn.displacement.y);
+	}
+
+	static glm::vec3 GetPositionDisplacement(const OceanVertex& vert, const Complex& c, const Complex& cx, const Complex& cz, float lambda)
+	{
+		return glm::vec3(vert.originalPosition.x + cx.real * lambda, c.real, vert.originalPosition.z + cz.real * lambda);
 	}
 public:
 	Ocean(Shader* shader, int dim, float spectrumHeight, const glm::vec2& wind, float length, bool geom);

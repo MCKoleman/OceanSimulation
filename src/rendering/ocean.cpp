@@ -12,7 +12,18 @@ Ocean::Ocean(Shader* shader, int dim, float spectrumHeight, const glm::vec2& win
 
 Ocean::~Ocean()
 {
-
+	if (mHTilde)
+		delete[] mHTilde;
+	if (mHTildeSlopeX)
+		delete[] mHTildeSlopeX;
+	if (mHTildeSlopeZ)
+		delete[] mHTildeSlopeZ;
+	if (mHTildeDX)
+		delete[] mHTildeDX;
+	if (mHTildeDZ)
+		delete[] mHTildeDZ;
+	if (mFFT)
+		delete mFFT;
 }
 
 void Ocean::Generate(int dim, float length, bool geom)
@@ -21,6 +32,14 @@ void Ocean::Generate(int dim, float length, bool geom)
 	mDimPlusOne = dim + 1;
 	mLength = length;
 	mGeometry = geom;
+
+	mHTilde = new Complex[mDim * mDim];
+	mHTildeSlopeX = new Complex[mDim * mDim];
+	mHTildeSlopeZ = new Complex[mDim * mDim];
+	mHTildeDX = new Complex[mDim * mDim];
+	mHTildeDZ = new Complex[mDim * mDim];
+	mFFT = new FFT(mDim);
+
 	mVertices.clear();
 	mIndices.clear();
 
@@ -286,7 +305,92 @@ void Ocean::EvaluateWaves(float t)
 
 void Ocean::EvaluateWavesFFT(float t)
 {
-	EvaluateWaves(t);
+	float lambda = -1.0f;
+
+	for (int mPrime = 0; mPrime < mDim; mPrime++)
+	{
+		float kz = PI * (2.0f * mPrime - mDim) / mLength;
+		for (int nPrime = 0; nPrime < mDim; nPrime++) {
+			float kx = PI * (2 * nPrime - mDim) / mLength;
+			float len = sqrt(kx * kx + kz * kz);
+			int index = mPrime * mDim + nPrime;
+
+			mHTilde[index] = HTilde(t, nPrime, mPrime);
+			mHTildeSlopeX[index] = mHTilde[index] * Complex(0, kx);
+			mHTildeSlopeZ[index] = mHTilde[index] * Complex(0, kz);
+			if (len < 0.000001f) {
+				mHTildeDX[index] = Complex(0.0f, 0.0f);
+				mHTildeDZ[index] = Complex(0.0f, 0.0f);
+			}
+			else {
+				mHTildeDX[index] = mHTilde[index] * Complex(0, -kx / len);
+				mHTildeDZ[index] = mHTilde[index] * Complex(0, -kz / len);
+			}
+		}
+	}
+
+	for (int mPrime = 0; mPrime < mDim; mPrime++)
+	{
+		mFFT->GetFFT(mHTilde, mHTilde, 1, mPrime * mDim);
+		mFFT->GetFFT(mHTildeSlopeX, mHTildeSlopeX, 1, mPrime * mDim);
+		mFFT->GetFFT(mHTildeSlopeZ, mHTildeSlopeZ, 1, mPrime * mDim);
+		mFFT->GetFFT(mHTildeDX, mHTildeDX, 1, mPrime * mDim);
+		mFFT->GetFFT(mHTildeDZ, mHTildeDZ, 1, mPrime * mDim);
+	}
+	for (int nPrime = 0; nPrime < mDim; nPrime++)
+	{
+		mFFT->GetFFT(mHTilde, mHTilde, mDim, nPrime);
+		mFFT->GetFFT(mHTildeSlopeX, mHTildeSlopeX, mDim, nPrime);
+		mFFT->GetFFT(mHTildeSlopeZ, mHTildeSlopeZ, mDim, nPrime);
+		mFFT->GetFFT(mHTildeDX, mHTildeDX, mDim, nPrime);
+		mFFT->GetFFT(mHTildeDZ, mHTildeDZ, mDim, nPrime);
+	}
+
+	int sign;
+	float signs[] = { 1.0f, -1.0f };
+	for (int mPrime = 0; mPrime < mDim; mPrime++)
+	{
+		for (int nPrime = 0; nPrime < mDim; nPrime++)
+		{
+			int index = mPrime * mDim + nPrime;     // index into mHTilde..
+			int index1 = mPrime * mDimPlusOne + nPrime;    // index into mVertices
+
+			sign = signs[(nPrime + mPrime) & 1];
+
+			mHTilde[index] = mHTilde[index] * sign;
+
+			// height
+			mVertices[index1].position.y = mHTilde[index].real;
+
+			// displacement
+			mHTildeDX[index] = mHTildeDX[index] * sign;
+			mHTildeDZ[index] = mHTildeDZ[index] * sign;
+			mVertices[index1].position = GetPositionDisplacement(mVertices[index1], mHTilde[index], mHTildeDX[index], mHTildeDZ[index], lambda);
+
+			// normal
+			mHTildeSlopeX[index] = mHTildeSlopeX[index] * sign;
+			mHTildeSlopeZ[index] = mHTildeSlopeZ[index] * sign;
+			glm::vec3 normal = glm::normalize(glm::vec3(0.0f - mHTildeSlopeX[index].real, 1.0f, 0.0f - mHTildeSlopeZ[index].real));
+			mVertices[index1].normal = normal;
+
+			// for tiling
+			if (nPrime == 0 && mPrime == 0)
+			{
+				mVertices[index1 + mDim + mDimPlusOne * mDim].position = GetPositionDisplacement(mVertices[index1 + mDim + mDimPlusOne * mDim], mHTilde[index], mHTildeDX[index], mHTildeDZ[index], lambda);
+				mVertices[index1 + mDim + mDimPlusOne * mDim].normal = normal;
+			}
+			if (nPrime == 0)
+			{
+				mVertices[index1 + mDim].position = GetPositionDisplacement(mVertices[index1 + mDim], mHTilde[index], mHTildeDX[index], mHTildeDZ[index], lambda);
+				mVertices[index1 + mDim].normal = normal;
+			}
+			if (mPrime == 0)
+			{
+				mVertices[index1 + mDimPlusOne * mDim].position = GetPositionDisplacement(mVertices[index1 + mDimPlusOne * mDim], mHTilde[index], mHTildeDX[index], mHTildeDZ[index], lambda);
+				mVertices[index1 + mDimPlusOne * mDim].normal = normal;
+			}
+		}
+	}
 }
 
 void Ocean::Draw(float t, const glm::mat4& view, const glm::mat4& proj, const glm::mat4& model, Light* light, Material* material, bool useFFT)
