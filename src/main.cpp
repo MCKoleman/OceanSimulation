@@ -152,10 +152,10 @@ void LoadScene(Scene* scene, State* state, Config* config)
 
     scene->SetOcean(new Ocean(
         scene->GetShader("waveFFT"), 
-        config->GetInt("water.divisions"), 
+        config->GetInt("water.fftDims"), 
         config->GetFloat("water.spectrumHeight"), 
         glm::vec2(config->GetFloat("water.windX"), config->GetFloat("water.windZ")),
-        config->GetFloat("water.size"), 
+        config->GetFloat("water.fftLen"), 
         false
     ));
 }

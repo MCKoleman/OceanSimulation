@@ -20,6 +20,7 @@ public:
 		{
 			Camera* cam = mScene->GetCamera();
 			cam->SetPos(GUIWindowUtils::InputVec3("Position", cam->GetPos()));
+			cam->LookAt(GUIWindowUtils::InputVec3("Target", cam->GetTarget()));
 			cam->SetPivot(GUIWindowUtils::InputVec3("Pivot", cam->GetPivot()));
 			cam->SetOrthSize(GUIWindowUtils::InputFloat("Size", cam->GetOrthSize()));
 			cam->SetFOV(GUIWindowUtils::InputFloat("FOV", cam->GetFOV()));

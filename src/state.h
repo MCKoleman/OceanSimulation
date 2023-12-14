@@ -10,7 +10,7 @@ public:
 	bool drawGUI = true;
 	bool waveInterference = true;
 	bool useSumOfSines = true;
-	bool useFFT = false;
+	bool useFFT = true;
 
 	std::string fps = "";
 	std::string frameTime = "";
