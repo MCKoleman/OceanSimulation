@@ -1,6 +1,10 @@
 # Ocean Simulation
 This program attempts to create a realistic lighting simulation of an ocean.<br/>
 
+![OceanSimulationSOS](https://github.com/MCKoleman/OceanSimulation/assets/20149932/2c3e166a-a3b2-4d9a-a46a-6b4f85990288)
+
+![OceanSimulationSOSWireframe](https://github.com/MCKoleman/OceanSimulation/assets/20149932/378e511b-557d-4ef7-b810-c58bb0534c6a)
+
 ## Getting Started With The Simulator
 To get the simulator to work, you need to use [CMake](https://cmake.org/cmake/help/latest/manual/cmake-gui.1.html) to generate the code.
 ![The file setup should look like this](./resources/images/Using-CMake-GUI.png)
@@ -22,6 +26,7 @@ To understand the equations we arrived to in creating this simulation, we used t
     - Part 1 [video](https://www.youtube.com/watch?v=PH9q0HNBjT4)
     - Part 2 [video](https://www.youtube.com/watch?v=yPfagLeUa7k)
     - His [repository](https://github.com/GarrettGunnell/Water)
+
 And we used these pages for reference in implementing the Discrete Fourier and Fast Fourier transforms:
 - [DFT](https://www.keithlantz.net/2011/10/ocean-simulation-part-one-using-the-discrete-fourier-transform/) 
 - [FFT](https://www.keithlantz.net/2011/11/ocean-simulation-part-two-using-the-fast-fourier-transform/)
