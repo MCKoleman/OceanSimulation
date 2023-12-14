@@ -277,7 +277,7 @@ void Ocean::EvaluateWaves(float t)
 	{
 		for (int nPrime = 0; nPrime < mDim; nPrime++)
 		{
-			int index = mPrime * mDim + nPrime;
+			int index = mPrime * mDimPlusOne + nPrime;
 			glm::vec2 x = glm::vec2(mVertices[index].position.x, mVertices[index].position.z);
 			ComplexVectorNormal cvn = GetComplexNormal(x, t);
 
